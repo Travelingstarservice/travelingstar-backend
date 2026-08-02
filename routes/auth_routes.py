@@ -1,5 +1,6 @@
 import re
 import uuid
+import os
 
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token
@@ -18,6 +19,11 @@ def _build_email(password):
     return f'{base}-{uuid.uuid4().hex[:6]}@travelingstar.local'
 
 
+def _admin_pin():
+    configured = _normalize_password(os.getenv('ADMIN_PIN', '1234'))
+    return configured if re.fullmatch(r'\d{4}', configured) else '1234'
+
+
 @auth_bp.post('/register')
 def register():
     data = request.get_json() or {}
@@ -25,6 +31,9 @@ def register():
 
     if not password or not re.fullmatch(r'\d{4}', password):
         return {'error': 'please provide a 4-digit password'}, 400
+
+    if password == _admin_pin():
+        return {'error': 'that pin is reserved'}, 400
 
     email = data.get('email') or _build_email(password)
     user = User.query.filter_by(email=email).first()
@@ -44,16 +53,23 @@ def login():
     if not password or not re.fullmatch(r'\d{4}', password):
         return {'error': 'please provide a 4-digit password'}, 400
 
-    user = User.query.filter_by(password=password).first()
-    if not user:
-        email = data.get('email')
-        if email:
-            user = User.query.filter_by(email=email).first()
+    # Reserve one PIN for administrator access.
+    if password == _admin_pin():
+        user = User.query.filter_by(email='admin@travelingstar.com').first()
+    else:
+        user = User.query.filter_by(password=password, role='user').first()
+        if not user:
+            email = data.get('email')
+            if email:
+                user = User.query.filter_by(email=email, role='user').first()
 
     if not user or user.password != password:
         return {'error': 'invalid credentials'}, 401
 
-    token = create_access_token(identity=str(user.id))
+    token = create_access_token(
+        identity=str(user.id),
+        additional_claims={'role': user.role or 'user'}
+    )
     role = user.role or ('admin' if user.email.lower() == 'admin@travelingstar.com' else 'user')
 
     return {
@@ -71,6 +87,9 @@ def change_password():
 
     if not new_password or not re.fullmatch(r'\d{4}', new_password):
         return {'error': 'please provide a 4-digit password'}, 400
+
+    if new_password == _admin_pin():
+        return {'error': 'that pin is reserved'}, 400
 
     user = None
     if current_password:

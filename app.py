@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import text
 from extensions import jwt, db
@@ -32,7 +32,9 @@ def migrate_user_schema():
 
 def seed_demo_admin():
     admin_email = 'admin@travelingstar.com'
-    admin_password = 'admin123'
+    admin_password = os.getenv('ADMIN_PIN', '1234').strip()
+    if len(admin_password) != 4 or not admin_password.isdigit():
+        admin_password = '1234'
     admin = User.query.filter_by(email=admin_email).first()
 
     if admin is None:
@@ -47,6 +49,12 @@ def seed_demo_admin():
 
 def create_app():
     app = Flask(__name__)
+    backend_root = os.path.dirname(__file__)
+    candidate_frontend_dirs = [
+        os.path.abspath(os.path.join(backend_root, '..', 'traveling-star-frontend', 'dist')),
+        os.path.abspath(os.path.join(backend_root, 'traveling-star-frontend', 'dist')),
+    ]
+    app.config['FRONTEND_DIST_DIR'] = next((path for path in candidate_frontend_dirs if os.path.isdir(path)), candidate_frontend_dirs[0])
 
     # Config
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'traveling-star-demo-secret-key-1234567890')
@@ -71,6 +79,11 @@ def create_app():
 
     @app.get('/')
     def home():
+        frontend_dist_dir = app.config['FRONTEND_DIST_DIR']
+        index_path = os.path.join(frontend_dist_dir, 'index.html')
+        if os.path.isfile(index_path):
+            return send_from_directory(frontend_dist_dir, 'index.html')
+
         return jsonify({
             'message': 'Traveling Star API'
         })
@@ -83,6 +96,18 @@ def create_app():
     app.register_blueprint(support_bp, url_prefix='/api/support')
     app.register_blueprint(podcast_bp, url_prefix='/api/podcasts')
     app.register_blueprint(payment_bp, url_prefix='/api/payments')
+
+    @app.route('/<path:path>')
+    def serve_frontend(path):
+        frontend_dist_dir = app.config['FRONTEND_DIST_DIR']
+        if not os.path.isdir(frontend_dist_dir):
+            return jsonify({'message': 'Traveling Star API'}), 404
+
+        candidate_path = os.path.join(frontend_dist_dir, path)
+        if os.path.isfile(candidate_path):
+            return send_from_directory(frontend_dist_dir, path)
+
+        return send_from_directory(frontend_dist_dir, 'index.html')
 
     return app
 
