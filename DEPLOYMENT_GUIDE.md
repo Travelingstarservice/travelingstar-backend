@@ -6,6 +6,7 @@
 - Runtime: Python 3.11
 - Build command: `chmod +x build.sh && ./build.sh`
 - Start command: `gunicorn app:app`
+- Important: the frontend folder must be present inside the backend repo at `traveling-star-frontend/` for Render to find it.
 
 ### Environment variables
 - `ADMIN_PIN=2580`

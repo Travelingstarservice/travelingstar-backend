@@ -13,8 +13,10 @@ else
 fi
 
 cd "$FRONTEND_DIR"
-npm install
-npm run build
+if [ -f package.json ]; then
+  npm install
+  npm run build
+fi
 
 cd ..
 exec gunicorn app:app
