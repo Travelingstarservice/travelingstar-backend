@@ -1,6 +1,7 @@
 import re
 import uuid
 import os
+import hmac
 
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, jwt_required
@@ -22,6 +23,10 @@ def _build_email(password):
 def _admin_pin():
     configured = _normalize_password(os.getenv('ADMIN_PIN', '1234'))
     return configured if re.fullmatch(r'\d{4}', configured) else '1234'
+
+
+def _owner_recovery_secret():
+    return str(os.getenv('OWNER_RECOVERY_SECRET') or '').strip()
 
 
 def _get_admin_user():
@@ -227,6 +232,40 @@ def unlock_admin_access():
     admin.login_disabled = False
     db.session.commit()
     return {'message': 'admin sign-in has been re-enabled'}
+
+
+@auth_bp.post('/admin/access/recover')
+def recover_admin_access():
+    configured_secret = _owner_recovery_secret()
+    if not configured_secret:
+        return {'error': 'owner recovery is not configured'}, 503
+
+    data = request.get_json() or {}
+    provided_secret = str(
+        request.headers.get('X-Owner-Recovery-Secret')
+        or data.get('recovery_secret')
+        or ''
+    ).strip()
+
+    if not provided_secret or not hmac.compare_digest(provided_secret, configured_secret):
+        return {'error': 'invalid recovery secret'}, 403
+
+    new_password = _normalize_password(data.get('new_password'))
+    if not new_password or not re.fullmatch(r'\d{4}', new_password):
+        return {'error': 'please provide a 4-digit password'}, 400
+
+    admin = _get_admin_user()
+    if not admin:
+        admin = User(email='admin@travelingstar.com', password=new_password, role='admin')
+        db.session.add(admin)
+    else:
+        admin.password = new_password
+        admin.role = 'admin'
+
+    admin.login_disabled = False
+    db.session.commit()
+
+    return {'message': 'admin access recovered and sign-in re-enabled'}
 
 
 @auth_bp.get('/owner/users')

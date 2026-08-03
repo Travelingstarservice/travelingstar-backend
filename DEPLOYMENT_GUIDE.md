@@ -11,6 +11,7 @@
 ### Environment variables
 - `ADMIN_PIN=2580`
 - `JWT_SECRET_KEY=replace-with-a-long-random-secret`
+- `OWNER_RECOVERY_SECRET=replace-with-a-long-random-owner-secret`
 - `CORS_ALLOWED_ORIGINS=https://your-frontend-domain.vercel.app`
 - `PORT=5000`
 
@@ -38,3 +39,11 @@
 2. Confirm the home page loads.
 3. Register/login and use the dashboard.
 4. Verify the API calls succeed from the deployed app.
+
+## 4. Emergency admin recovery
+
+Use only if admin access is locked and you do not have an active admin session.
+
+- Endpoint: `POST /api/auth/admin/access/recover`
+- Header: `X-Owner-Recovery-Secret: <OWNER_RECOVERY_SECRET>`
+- JSON body: `{ "new_password": "2580" }`
