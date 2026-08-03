@@ -1,9 +1,106 @@
 # settings_routes.py
+import json
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
 from models.user import User
+from models.site_config import SiteConfig
+from extensions import db
 
 settings_bp = Blueprint("settings_bp", __name__)
+
+
+DEFAULT_SITE_CONFIG = {
+    "brandName": "Traveling Star Service",
+    "showBanner": True,
+    "bannerImage": "/traveling-star-flag.jpeg",
+    "services": [
+        {
+            "name": "Airport transfers",
+            "description": "Efficient pickup and drop-off for early departures, late arrivals, and everything in between."
+        },
+        {
+            "name": "Local rides",
+            "description": "Quick trips across town for errands, appointments, and essential travel."
+        },
+        {
+            "name": "Events and gatherings",
+            "description": "Arrive together and leave on your own timeline with flexible service plans."
+        },
+        {
+            "name": "Custom routes",
+            "description": "Need something specific? Send the route details and we'll work around your schedule."
+        }
+    ],
+    "fleet": [
+        {
+            "name": "Local Ride Team",
+            "description": "Daily city and county pickup/drop-off service coverage."
+        },
+        {
+            "name": "Airport Transfer Team",
+            "description": "Dedicated airport schedule and long-distance trip windows."
+        }
+    ]
+}
+
+
+def _normalize_site_items(items, fallback):
+    if not isinstance(items, list):
+        return [dict(item) for item in fallback]
+
+    normalized = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get('name', '')).strip()
+        description = str(item.get('description', '')).strip()
+        if not name or not description:
+            continue
+        normalized.append({"name": name, "description": description})
+
+    return normalized if normalized else [dict(item) for item in fallback]
+
+
+def _normalize_site_config(raw):
+    base = json.loads(json.dumps(DEFAULT_SITE_CONFIG))
+    if not isinstance(raw, dict):
+        return base
+
+    brand_name = str(raw.get('brandName', base['brandName'])).strip()
+    banner_image = str(raw.get('bannerImage', base['bannerImage'])).strip()
+
+    base['brandName'] = brand_name or base['brandName']
+    base['showBanner'] = bool(raw.get('showBanner', True))
+    base['bannerImage'] = banner_image or base['bannerImage']
+    base['services'] = _normalize_site_items(raw.get('services'), DEFAULT_SITE_CONFIG['services'])
+    base['fleet'] = _normalize_site_items(raw.get('fleet'), DEFAULT_SITE_CONFIG['fleet'])
+    return base
+
+
+def _get_persisted_site_config():
+    row = SiteConfig.query.filter_by(key='public_site').first()
+    if not row:
+        return _normalize_site_config(DEFAULT_SITE_CONFIG)
+
+    try:
+        parsed = json.loads(row.value or '{}')
+    except json.JSONDecodeError:
+        parsed = DEFAULT_SITE_CONFIG
+
+    return _normalize_site_config(parsed)
+
+
+def _save_site_config(config):
+    normalized = _normalize_site_config(config)
+    row = SiteConfig.query.filter_by(key='public_site').first()
+    if not row:
+        row = SiteConfig(key='public_site', value='{}')
+        db.session.add(row)
+
+    row.value = json.dumps(normalized)
+    db.session.commit()
+    return normalized
 
 # ============================
 # BUSINESS SETTINGS (AdminSettings.vue)
@@ -282,6 +379,34 @@ def update_logo():
     return jsonify({
         "message": "Logo updated",
         "logo": business_settings["logo"]
+    })
+
+
+@settings_bp.get('/site-config')
+def get_site_config():
+    return jsonify({
+        'config': _get_persisted_site_config()
+    })
+
+
+@settings_bp.post('/site-config')
+@jwt_required()
+def update_site_config():
+    denied = _require_admin_claims()
+    if denied:
+        return denied
+
+    data = request.get_json() or {}
+    config = data.get('config', data)
+    normalized = _save_site_config(config)
+
+    business_settings['businessName'] = normalized.get('brandName', business_settings.get('businessName'))
+    business_settings.setdefault('design', {})['showBanner'] = bool(normalized.get('showBanner', True))
+    business_settings['services'] = [item.get('name') for item in normalized.get('services', []) if item.get('name')]
+
+    return jsonify({
+        'message': 'Site config updated',
+        'config': normalized
     })
 
 

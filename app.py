@@ -4,6 +4,7 @@ from flask_cors import CORS
 from sqlalchemy import text
 from extensions import jwt, db
 from models.user import User
+from models.site_config import SiteConfig
 
 # Import all blueprints
 from routes.auth_routes import auth_bp
