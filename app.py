@@ -14,6 +14,7 @@ from routes.support_routes import support_bp
 from routes.podcast_routes import podcast_bp
 from routes.payment_routes import payment_bp
 from routes.ai_routes import ai_bp
+from routes.dispatch_routes import dispatch_bp
 
 
 def migrate_user_schema():
@@ -136,6 +137,7 @@ def create_app():
     app.register_blueprint(podcast_bp, url_prefix='/api/podcasts')
     app.register_blueprint(payment_bp, url_prefix='/api/payments')
     app.register_blueprint(ai_bp, url_prefix='/api/ai')
+    app.register_blueprint(dispatch_bp, url_prefix='/api/dispatch')
 
     @app.route('/<path:path>')
     def serve_frontend(path):

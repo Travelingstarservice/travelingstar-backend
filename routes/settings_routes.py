@@ -54,6 +54,21 @@ business_settings = {
         "zelleEmail": "",
         "cashAppTag": "",
         "paymentInstructions": "Call or text 252 886-5996 to confirm secure bank details."
+    },
+    "dispatch": {
+        "enabled": True,
+        "acceptLocalCalls": True,
+        "serviceAreas": ["Rocky Mount", "Nash County", "Wilson", "Greenville"],
+        "fleetSources": ["Amazon Flex", "Local Taxi", "Airport Shuttle", "Medical Ride"],
+        "dispatchPhone": "252 886-5996",
+        "meter": {
+            "baseFare": 4.5,
+            "perMile": 2.75,
+            "perMinute": 0.55,
+            "minimumFare": 9.0,
+            "surgeMultiplier": 1.0,
+            "bookingFee": 1.5
+        }
     }
 }
 
@@ -83,6 +98,23 @@ def _update_nested(target, incoming, expected_keys):
             target[key] = incoming.get(key)
 
 
+def _ensure_dispatch_settings():
+    dispatch = business_settings.setdefault("dispatch", {})
+    dispatch.setdefault("enabled", True)
+    dispatch.setdefault("acceptLocalCalls", True)
+    dispatch.setdefault("serviceAreas", ["Rocky Mount", "Nash County", "Wilson", "Greenville"])
+    dispatch.setdefault("fleetSources", ["Amazon Flex", "Local Taxi", "Airport Shuttle", "Medical Ride"])
+    dispatch.setdefault("dispatchPhone", business_settings.get("phone", "252 886-5996"))
+
+    meter = dispatch.setdefault("meter", {})
+    meter.setdefault("baseFare", 4.5)
+    meter.setdefault("perMile", 2.75)
+    meter.setdefault("perMinute", 0.55)
+    meter.setdefault("minimumFare", 9.0)
+    meter.setdefault("surgeMultiplier", 1.0)
+    meter.setdefault("bookingFee", 1.5)
+
+
 def _require_admin_claims():
     claims = get_jwt()
     if (claims.get("role") or "").lower() != "admin":
@@ -92,6 +124,7 @@ def _require_admin_claims():
 
 @settings_bp.get("")
 def get_settings():
+    _ensure_dispatch_settings()
     return jsonify(business_settings)
 
 
@@ -103,6 +136,7 @@ def update_settings():
         return denied
 
     data = request.get_json() or {}
+    _ensure_dispatch_settings()
 
     business_settings["businessName"] = data.get("businessName", business_settings["businessName"])
     business_settings["contact"] = data.get("contact", business_settings["contact"])
@@ -167,6 +201,18 @@ def update_settings():
             "paymentInstructions"
         }
     )
+    _update_nested(
+        business_settings["dispatch"],
+        data.get("dispatch"),
+        {"enabled", "acceptLocalCalls", "serviceAreas", "fleetSources", "dispatchPhone"}
+    )
+
+    if isinstance(data.get("dispatch"), dict):
+        _update_nested(
+            business_settings["dispatch"].setdefault("meter", {}),
+            data.get("dispatch", {}).get("meter"),
+            {"baseFare", "perMile", "perMinute", "minimumFare", "surgeMultiplier", "bookingFee"}
+        )
 
     if "logo" in data:
         business_settings["logo"] = data.get("logo")
