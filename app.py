@@ -47,8 +47,33 @@ def seed_demo_admin():
     db.session.commit()
 
 
+def validate_sqlite_path(sqlite_path):
+    sqlite_dir = os.path.dirname(sqlite_path) or '.'
+    os.makedirs(sqlite_dir, exist_ok=True)
+
+    dir_exists = os.path.isdir(sqlite_dir)
+    dir_writable = os.access(sqlite_dir, os.W_OK)
+    print(f"[startup] SQLITE_PATH={sqlite_path}")
+    print(f"[startup] SQLITE_DIR={sqlite_dir} exists={dir_exists} writable={dir_writable}")
+
+    if not dir_exists or not dir_writable:
+        raise RuntimeError(
+            f"SQLite directory is not writable: dir={sqlite_dir} path={sqlite_path}"
+        )
+
+    try:
+        with open(sqlite_path, 'a'):
+            pass
+    except OSError as exc:
+        raise RuntimeError(
+            f"Cannot open SQLite file for write: path={sqlite_path} error={exc}"
+        ) from exc
+
+
 def create_app():
     app = Flask(__name__)
+    os.makedirs(app.instance_path, exist_ok=True)
+
     backend_root = os.path.dirname(__file__)
     candidate_frontend_dirs = [
         os.path.abspath(os.path.join(backend_root, '..', 'traveling-star-frontend', 'dist')),
@@ -63,8 +88,21 @@ def create_app():
     database_url = os.getenv('DATABASE_URL')
     if database_url:
         app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+        # Keep connection usage predictable on hosted Postgres plans.
+        app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+            'pool_pre_ping': True,
+            'pool_recycle': int(os.getenv('DB_POOL_RECYCLE', '280')),
+            'pool_size': int(os.getenv('DB_POOL_SIZE', '3')),
+            'max_overflow': int(os.getenv('DB_MAX_OVERFLOW', '2')),
+            'pool_timeout': int(os.getenv('DB_POOL_TIMEOUT', '30')),
+        }
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'database.db')}"
+        default_sqlite_path = os.path.join(app.instance_path, 'database.db')
+        if os.getenv('RENDER') == 'true':
+            default_sqlite_path = '/tmp/travelingstar/database.db'
+        sqlite_path = os.path.abspath(os.getenv('SQLITE_PATH', default_sqlite_path))
+        validate_sqlite_path(sqlite_path)
+        app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{sqlite_path}"
 
     # Extensions
     cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '*')
