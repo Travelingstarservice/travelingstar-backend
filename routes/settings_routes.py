@@ -1,6 +1,7 @@
 # settings_routes.py
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
+from models.user import User
 
 settings_bp = Blueprint("settings_bp", __name__)
 
@@ -60,7 +61,10 @@ business_settings = {
         "acceptLocalCalls": True,
         "serviceAreas": ["Rocky Mount", "Nash County", "Wilson", "Greenville"],
         "fleetSources": ["Amazon Flex", "Local Taxi", "Airport Shuttle", "Medical Ride"],
+        "partnerChannels": ["uber_partner", "lyft_partner", "local_transport", "amazon_flex"],
         "dispatchPhone": "252 886-5996",
+        "promotionMessage": "Ride with Traveling Star Service for fast local dispatch and reliable pickup windows.",
+        "promotionCampaigns": [],
         "meter": {
             "baseFare": 4.5,
             "perMile": 2.75,
@@ -104,7 +108,10 @@ def _ensure_dispatch_settings():
     dispatch.setdefault("acceptLocalCalls", True)
     dispatch.setdefault("serviceAreas", ["Rocky Mount", "Nash County", "Wilson", "Greenville"])
     dispatch.setdefault("fleetSources", ["Amazon Flex", "Local Taxi", "Airport Shuttle", "Medical Ride"])
+    dispatch.setdefault("partnerChannels", ["uber_partner", "lyft_partner", "local_transport", "amazon_flex"])
     dispatch.setdefault("dispatchPhone", business_settings.get("phone", "252 886-5996"))
+    dispatch.setdefault("promotionMessage", "Ride with Traveling Star Service for fast local dispatch and reliable pickup windows.")
+    dispatch.setdefault("promotionCampaigns", [])
 
     meter = dispatch.setdefault("meter", {})
     meter.setdefault("baseFare", 4.5)
@@ -119,6 +126,21 @@ def _require_admin_claims():
     claims = get_jwt()
     if (claims.get("role") or "").lower() != "admin":
         return jsonify({"error": "admin access required"}), 403
+
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({"error": "invalid session"}), 401
+
+    try:
+        user = User.query.get(int(user_id))
+    except (TypeError, ValueError):
+        user = None
+
+    if not user:
+        return jsonify({"error": "user not found"}), 401
+    if (user.role or "").lower() != "admin":
+        return jsonify({"error": "admin access required"}), 403
+
     return None
 
 
@@ -204,7 +226,7 @@ def update_settings():
     _update_nested(
         business_settings["dispatch"],
         data.get("dispatch"),
-        {"enabled", "acceptLocalCalls", "serviceAreas", "fleetSources", "dispatchPhone"}
+        {"enabled", "acceptLocalCalls", "serviceAreas", "fleetSources", "partnerChannels", "dispatchPhone", "promotionMessage"}
     )
 
     if isinstance(data.get("dispatch"), dict):

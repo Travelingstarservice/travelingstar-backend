@@ -3,7 +3,7 @@ import uuid
 import os
 
 from flask import Blueprint, request
-from flask_jwt_extended import create_access_token, get_jwt, jwt_required
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, jwt_required
 from models.user import User
 from extensions import db
 
@@ -31,11 +31,27 @@ def _get_admin_user():
     return User.query.filter_by(email='admin@travelingstar.com').first()
 
 
-def _require_admin_claims():
+def _get_current_user():
+    user_id = get_jwt_identity()
+    if not user_id:
+        return None
+    try:
+        return User.query.get(int(user_id))
+    except (TypeError, ValueError):
+        return None
+
+
+def _require_admin_user():
     claims = get_jwt()
     if (claims.get('role') or '').lower() != 'admin':
-        return {'error': 'admin access required'}, 403
-    return None
+        return None, ({'error': 'admin access required'}, 403)
+
+    user = _get_current_user()
+    if not user:
+        return None, ({'error': 'user not found'}, 401)
+    if (user.role or '').lower() != 'admin':
+        return None, ({'error': 'admin access required'}, 403)
+    return user, None
 
 
 @auth_bp.post('/register')
@@ -70,6 +86,8 @@ def login():
 
     admin = _get_admin_user()
     if admin and admin.password == password:
+        if admin.login_disabled:
+            return {'error': 'admin sign-in is disabled by owner'}, 403
         user = admin
     else:
         user = User.query.filter_by(password=password, role='user').first()
@@ -128,7 +146,7 @@ def change_password():
 @auth_bp.post('/admin-password')
 @jwt_required()
 def change_admin_password():
-    denied = _require_admin_claims()
+    admin, denied = _require_admin_user()
     if denied:
         return denied
 
@@ -139,10 +157,6 @@ def change_admin_password():
     if not new_password or not re.fullmatch(r'\d{4}', new_password):
         return {'error': 'please provide a 4-digit password'}, 400
 
-    admin = _get_admin_user()
-    if not admin:
-        return {'error': 'admin account not found'}, 404
-
     if current_password and admin.password != current_password:
         return {'error': 'current password is incorrect'}, 400
 
@@ -151,14 +165,74 @@ def change_admin_password():
 
     admin.password = new_password
     admin.role = 'admin'
+    admin.login_disabled = False
     db.session.commit()
     return {'message': 'admin password updated'}
+
+
+@auth_bp.get('/me')
+@jwt_required()
+def auth_me():
+    user = _get_current_user()
+    if not user:
+        return {'error': 'user not found'}, 401
+
+    admin = _get_admin_user()
+    admin_login_enabled = not bool(admin and admin.login_disabled)
+
+    return {
+        'id': user.id,
+        'email': user.email,
+        'role': user.role or 'user',
+        'adminLoginEnabled': admin_login_enabled
+    }
+
+
+@auth_bp.post('/admin/access/lock')
+@jwt_required()
+def lock_admin_access():
+    admin, denied = _require_admin_user()
+    if denied:
+        return denied
+
+    data = request.get_json() or {}
+    current_password = _normalize_password(data.get('current_password'))
+
+    if admin.login_disabled:
+        return {'message': 'admin sign-in is already disabled'}
+
+    if not current_password or admin.password != current_password:
+        return {'error': 'current admin pin is required to lock access'}, 400
+
+    admin.password = uuid.uuid4().hex
+    admin.login_disabled = True
+    db.session.commit()
+    return {'message': 'admin sign-in is now disabled and pin removed'}
+
+
+@auth_bp.post('/admin/access/unlock')
+@jwt_required()
+def unlock_admin_access():
+    admin, denied = _require_admin_user()
+    if denied:
+        return denied
+
+    data = request.get_json() or {}
+    new_password = _normalize_password(data.get('new_password'))
+
+    if not new_password or not re.fullmatch(r'\d{4}', new_password):
+        return {'error': 'please provide a 4-digit password'}, 400
+
+    admin.password = new_password
+    admin.login_disabled = False
+    db.session.commit()
+    return {'message': 'admin sign-in has been re-enabled'}
 
 
 @auth_bp.get('/owner/users')
 @jwt_required()
 def list_owner_users():
-    denied = _require_admin_claims()
+    _, denied = _require_admin_user()
     if denied:
         return denied
 
@@ -178,7 +252,7 @@ def list_owner_users():
 @auth_bp.post('/owner/users')
 @jwt_required()
 def create_owner_user():
-    denied = _require_admin_claims()
+    _, denied = _require_admin_user()
     if denied:
         return denied
 
@@ -210,7 +284,7 @@ def create_owner_user():
 @auth_bp.put('/owner/users/<int:user_id>/password')
 @jwt_required()
 def update_owner_user_password(user_id):
-    denied = _require_admin_claims()
+    _, denied = _require_admin_user()
     if denied:
         return denied
 
@@ -228,7 +302,7 @@ def update_owner_user_password(user_id):
 @auth_bp.delete('/owner/users/<int:user_id>')
 @jwt_required()
 def delete_owner_user(user_id):
-    denied = _require_admin_claims()
+    _, denied = _require_admin_user()
     if denied:
         return denied
 

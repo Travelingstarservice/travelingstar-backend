@@ -22,6 +22,8 @@ def migrate_user_schema():
         user_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(user)'))}
         if 'role' not in user_columns:
             conn.execute(text("ALTER TABLE user ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
+        if 'login_disabled' not in user_columns:
+            conn.execute(text("ALTER TABLE user ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT 0"))
 
         booking_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(booking)'))}
         if 'date' not in booking_columns:
@@ -43,8 +45,9 @@ def seed_demo_admin():
         admin = User(email=admin_email, password=admin_password, role='admin')
         db.session.add(admin)
     else:
-        admin.password = admin_password
         admin.role = 'admin'
+        if admin.login_disabled is None:
+            admin.login_disabled = False
 
     db.session.commit()
 
