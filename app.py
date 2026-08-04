@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
-from sqlalchemy import text
+from sqlalchemy import inspect, text
 from extensions import jwt, db
 from models.user import User
 from models.site_config import SiteConfig
@@ -20,19 +20,26 @@ from routes.dispatch_routes import dispatch_bp
 
 def migrate_user_schema():
     with db.engine.begin() as conn:
-        user_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(user)'))}
-        if 'role' not in user_columns:
-            conn.execute(text("ALTER TABLE user ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
-        if 'login_disabled' not in user_columns:
-            conn.execute(text("ALTER TABLE user ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT 0"))
+        inspector = inspect(conn)
+        existing_tables = set(inspector.get_table_names())
+        bool_default = '0' if conn.dialect.name == 'sqlite' else 'FALSE'
 
-        booking_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(booking)'))}
-        if 'date' not in booking_columns:
-            conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
+        if 'user' in existing_tables:
+            user_columns = {col['name'] for col in inspector.get_columns('user')}
+            if 'role' not in user_columns:
+                conn.execute(text("ALTER TABLE \"user\" ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
+            if 'login_disabled' not in user_columns:
+                conn.execute(text(f"ALTER TABLE \"user\" ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT {bool_default}"))
 
-        event_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(event)'))}
-        if 'image' not in event_columns:
-            conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
+        if 'booking' in existing_tables:
+            booking_columns = {col['name'] for col in inspector.get_columns('booking')}
+            if 'date' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
+
+        if 'event' in existing_tables:
+            event_columns = {col['name'] for col in inspector.get_columns('event')}
+            if 'image' not in event_columns:
+                conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
 
 
 def seed_demo_admin():
@@ -118,7 +125,10 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        migrate_user_schema()
+        try:
+            migrate_user_schema()
+        except Exception as exc:
+            app.logger.exception('Non-fatal schema migration step failed during startup: %s', exc)
         seed_demo_admin()
 
     @app.get('/')
@@ -131,6 +141,15 @@ def create_app():
         return jsonify({
             'message': 'Traveling Star API'
         })
+
+    @app.get('/healthz')
+    def healthz():
+        try:
+            db.session.execute(text('SELECT 1'))
+            return jsonify({'status': 'ok'}), 200
+        except Exception as exc:
+            app.logger.exception('Health check failed: %s', exc)
+            return jsonify({'status': 'error'}), 503
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
