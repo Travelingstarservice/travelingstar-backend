@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import inspect, text
 from extensions import jwt, db
@@ -97,6 +97,16 @@ def parse_cors_origins(raw_value):
     return origins or '*'
 
 
+def resolve_cors_origin(cors_origins, request_origin):
+    if cors_origins == '*':
+        return '*'
+    if not request_origin:
+        return None
+    if isinstance(cors_origins, list) and request_origin in cors_origins:
+        return request_origin
+    return None
+
+
 def create_app():
     app = Flask(__name__)
     os.makedirs(app.instance_path, exist_ok=True)
@@ -133,6 +143,7 @@ def create_app():
 
     # Extensions
     cors_origins = parse_cors_origins(os.getenv('CORS_ALLOWED_ORIGINS', '*'))
+    app.config['CORS_ALLOWED_ORIGINS'] = cors_origins
     CORS(
         app,
         resources={
@@ -144,6 +155,25 @@ def create_app():
             }
         },
     )
+
+    @app.after_request
+    def add_api_cors_headers(response):
+        if request.path.startswith('/api/'):
+            origin = request.headers.get('Origin')
+            allowed_origin = resolve_cors_origin(app.config['CORS_ALLOWED_ORIGINS'], origin)
+            if allowed_origin:
+                response.headers['Access-Control-Allow-Origin'] = allowed_origin
+                if allowed_origin != '*':
+                    response.headers['Vary'] = 'Origin'
+
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = request.headers.get(
+                'Access-Control-Request-Headers',
+                'Content-Type, Authorization',
+            )
+            response.headers['Access-Control-Max-Age'] = '86400'
+
+        return response
     jwt.init_app(app)
     db.init_app(app)
 
