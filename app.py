@@ -124,12 +124,20 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        db.create_all()
+        app.config['DB_READY'] = False
         try:
-            migrate_user_schema()
+            db.create_all()
+            try:
+                migrate_user_schema()
+            except Exception as exc:
+                app.logger.exception('Non-fatal schema migration step failed during startup: %s', exc)
+            try:
+                seed_demo_admin()
+            except Exception as exc:
+                app.logger.exception('Non-fatal admin seed step failed during startup: %s', exc)
+            app.config['DB_READY'] = True
         except Exception as exc:
-            app.logger.exception('Non-fatal schema migration step failed during startup: %s', exc)
-        seed_demo_admin()
+            app.logger.exception('Database initialization failed during startup: %s', exc)
 
     @app.get('/')
     def home():
@@ -144,12 +152,20 @@ def create_app():
 
     @app.get('/healthz')
     def healthz():
+        payload = {
+            'status': 'ok',
+            'db_ready': bool(app.config.get('DB_READY', False))
+        }
         try:
             db.session.execute(text('SELECT 1'))
-            return jsonify({'status': 'ok'}), 200
+            payload['db_connected'] = True
         except Exception as exc:
             app.logger.exception('Health check failed: %s', exc)
-            return jsonify({'status': 'error'}), 503
+            payload['db_connected'] = False
+
+        # Keep this as a liveness probe so Render can keep the process up
+        # even if the database is temporarily unavailable.
+        return jsonify(payload), 200
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
