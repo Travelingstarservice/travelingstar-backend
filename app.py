@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
-from sqlalchemy import text
+from sqlalchemy import inspect as sa_inspect, text
 from extensions import jwt, db
 from models.user import User
 from models.site_config import SiteConfig
@@ -19,27 +19,57 @@ from routes.dispatch_routes import dispatch_bp
 
 
 def migrate_user_schema():
+    inspector = sa_inspect(db.engine)
+    dialect = db.engine.dialect.name
+
+    # SQLite-only: add columns that were added after initial schema creation.
+    # On PostgreSQL the columns are always created by db.create_all() from the
+    # current model definitions, so no manual ALTER TABLE is needed.
+    if dialect != 'sqlite':
+        return
+
     with db.engine.begin() as conn:
-        user_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(user)'))}
+        user_columns = {col['name'] for col in inspector.get_columns('user')}
         if 'role' not in user_columns:
             conn.execute(text("ALTER TABLE user ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
         if 'login_disabled' not in user_columns:
             conn.execute(text("ALTER TABLE user ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT 0"))
 
-        booking_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(booking)'))}
+        booking_columns = {col['name'] for col in inspector.get_columns('booking')}
         if 'date' not in booking_columns:
             conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
 
-        event_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(event)'))}
+        event_columns = {col['name'] for col in inspector.get_columns('event')}
         if 'image' not in event_columns:
             conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
 
 
+_KNOWN_WEAK_PINS = {'1234', '0000', '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999'}
+_PLACEHOLDER_SECRETS = {'replace-with-a-long-random-secret', 'traveling-star-demo-secret-key-1234567890', ''}
+
+
+def _validate_startup_secrets():
+    jwt_secret = os.getenv('JWT_SECRET_KEY', '').strip()
+    if not jwt_secret or jwt_secret in _PLACEHOLDER_SECRETS:
+        raise RuntimeError(
+            "JWT_SECRET_KEY is not set or is a placeholder. "
+            "Set a strong random secret in your environment before starting the app."
+        )
+
+    admin_pin = os.getenv('ADMIN_PIN', '').strip()
+    if not admin_pin or not (len(admin_pin) == 4 and admin_pin.isdigit()):
+        raise RuntimeError(
+            "ADMIN_PIN must be set to a 4-digit number in your environment."
+        )
+    if admin_pin in _KNOWN_WEAK_PINS:
+        raise RuntimeError(
+            f"ADMIN_PIN '{admin_pin}' is too weak. Choose a non-sequential 4-digit PIN."
+        )
+
+
 def seed_demo_admin():
     admin_email = 'admin@travelingstar.com'
-    admin_password = os.getenv('ADMIN_PIN', '1234').strip()
-    if len(admin_password) != 4 or not admin_password.isdigit():
-        admin_password = '1234'
+    admin_password = os.getenv('ADMIN_PIN', '').strip()
     admin = User.query.filter_by(email=admin_email).first()
 
     if admin is None:
@@ -77,6 +107,7 @@ def validate_sqlite_path(sqlite_path):
 
 
 def create_app():
+    _validate_startup_secrets()
     app = Flask(__name__)
     os.makedirs(app.instance_path, exist_ok=True)
 
@@ -88,7 +119,7 @@ def create_app():
     app.config['FRONTEND_DIST_DIR'] = next((path for path in candidate_frontend_dirs if os.path.isdir(path)), candidate_frontend_dirs[0])
 
     # Config
-    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'traveling-star-demo-secret-key-1234567890')
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     database_url = os.getenv('DATABASE_URL')
