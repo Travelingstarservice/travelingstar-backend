@@ -83,6 +83,20 @@ def validate_sqlite_path(sqlite_path):
         ) from exc
 
 
+def parse_cors_origins(raw_value):
+    value = (raw_value or '*').strip()
+    if (value.startswith("'") and value.endswith("'")) or (value.startswith('"') and value.endswith('"')):
+        value = value[1:-1].strip()
+
+    if not value:
+        return '*'
+    if value == '*':
+        return '*'
+
+    origins = [origin.strip() for origin in value.split(',') if origin.strip()]
+    return origins or '*'
+
+
 def create_app():
     app = Flask(__name__)
     os.makedirs(app.instance_path, exist_ok=True)
@@ -118,8 +132,18 @@ def create_app():
         app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{sqlite_path}"
 
     # Extensions
-    cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '*')
-    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+    cors_origins = parse_cors_origins(os.getenv('CORS_ALLOWED_ORIGINS', '*'))
+    CORS(
+        app,
+        resources={
+            r"/api/*": {
+                "origins": cors_origins,
+                "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+                "allow_headers": ["Content-Type", "Authorization"],
+                "max_age": 86400,
+            }
+        },
+    )
     jwt.init_app(app)
     db.init_app(app)
 
