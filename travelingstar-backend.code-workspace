@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../traveling-star-frontend"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "travelingstar-backend",
+		"chat.agent.collapseCompletedResponses": true,
+		"chat.agent.allowedNetworkDomains": [
+			"",
+			"C:\\Users\\User\\AppData\\Roaming\\Code\\User\\workspaceStorage\\vscode-chat-images\\image-1786135630819.png"
+		],
+		"chat.agent.networkFilter": true,
+		"chat.agent.maxRequests": 50000
+	}
+}

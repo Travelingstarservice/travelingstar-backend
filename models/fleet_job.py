@@ -21,3 +21,12 @@ class FleetJob(db.Model):
     notes = db.Column(db.String(500), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Job app integration fields
+    job_app_source = db.Column(db.String(80), nullable=True)  # 'amazon_flex', 'doordash', 'uber', 'local_app', etc.
+    job_app_id = db.Column(db.String(120), nullable=True)  # External job ID from the app
+    job_app_url = db.Column(db.String(500), nullable=True)  # URL to open the job in the app
+    job_app_status = db.Column(db.String(40), nullable=True)  # Status from external app
+    earnings = db.Column(db.Float, nullable=True)  # Earnings from the job app
+    rating = db.Column(db.Float, nullable=True)  # Customer rating from job app
+    tips = db.Column(db.Float, nullable=True)  # Tips from job app

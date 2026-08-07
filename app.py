@@ -1,10 +1,12 @@
 import os
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from flask_migrate import Migrate
 from sqlalchemy import inspect, text
 from extensions import jwt, db
 from models.user import User
 from models.site_config import SiteConfig
+from utils.logger import setup_logging
 
 # Import all blueprints
 from routes.auth_routes import auth_bp
@@ -17,8 +19,16 @@ from routes.payment_routes import payment_bp
 from routes.ai_routes import ai_bp
 from routes.dispatch_routes import dispatch_bp
 
+# Initialize Flask-Migrate
+migrate = Migrate()
+
 
 def migrate_user_schema():
+    """
+    Legacy migration function for backward compatibility.
+    New migrations should use Flask-Migrate.
+    This function only runs for existing databases without proper migrations.
+    """
     with db.engine.begin() as conn:
         inspector = inspect(conn)
         existing_tables = set(inspector.get_table_names())
@@ -35,11 +45,42 @@ def migrate_user_schema():
             booking_columns = {col['name'] for col in inspector.get_columns('booking')}
             if 'date' not in booking_columns:
                 conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
+            if 'status' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending'"))
+            if 'notes' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN notes TEXT"))
+            if 'pickup_location' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN pickup_location VARCHAR(255)"))
+            if 'dropoff_location' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN dropoff_location VARCHAR(255)"))
+            if 'created_at' not in booking_columns:
+                # SQLite doesn't support non-constant defaults in ALTER TABLE
+                # Use a constant timestamp for migration
+                conn.execute(text("ALTER TABLE booking ADD COLUMN created_at DATETIME NOT NULL DEFAULT '2026-08-07 00:00:00'"))
+            if 'updated_at' not in booking_columns:
+                conn.execute(text("ALTER TABLE booking ADD COLUMN updated_at DATETIME NOT NULL DEFAULT '2026-08-07 00:00:00'"))
 
         if 'event' in existing_tables:
             event_columns = {col['name'] for col in inspector.get_columns('event')}
             if 'image' not in event_columns:
                 conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
+
+        if 'fleet_job' in existing_tables:
+            fleet_job_columns = {col['name'] for col in inspector.get_columns('fleet_job')}
+            if 'job_app_source' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_source VARCHAR(80)"))
+            if 'job_app_id' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_id VARCHAR(120)"))
+            if 'job_app_url' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_url VARCHAR(500)"))
+            if 'job_app_status' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_status VARCHAR(40)"))
+            if 'earnings' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN earnings FLOAT"))
+            if 'rating' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN rating FLOAT"))
+            if 'tips' not in fleet_job_columns:
+                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN tips FLOAT"))
 
 
 def seed_demo_admin():
@@ -144,17 +185,6 @@ def create_app():
     # Extensions
     cors_origins = parse_cors_origins(os.getenv('CORS_ALLOWED_ORIGINS', '*'))
     app.config['CORS_ALLOWED_ORIGINS'] = cors_origins
-    CORS(
-        app,
-        resources={
-            r"/api/*": {
-                "origins": cors_origins,
-                "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-                "allow_headers": ["Content-Type", "Authorization"],
-                "max_age": 86400,
-            }
-        },
-    )
 
     @app.after_request
     def add_api_cors_headers(response):
@@ -174,8 +204,24 @@ def create_app():
             response.headers['Access-Control-Max-Age'] = '86400'
 
         return response
+
+    CORS(
+        app,
+        resources={
+            r"/api/*": {
+                "origins": cors_origins,
+                "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+                "allow_headers": ["Content-Type", "Authorization"],
+                "max_age": 86400,
+            }
+        },
+    )
     jwt.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
+
+    # Setup comprehensive logging
+    setup_logging(app)
 
     with app.app_context():
         app.config['DB_READY'] = False

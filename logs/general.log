@@ -1,0 +1,161 @@
+[2026-08-07 14:55:46] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 14:55:46] [ERROR] [N/A] app: Non-fatal schema migration step failed during startup: (sqlite3.OperationalError) Cannot add a column with non-constant default
+[SQL: ALTER TABLE booking ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: Cannot add a column with non-constant default
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\User\LocalDev\travelingstar-backend\app.py", line 212, in create_app
+    migrate_user_schema()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\LocalDev\travelingstar-backend\app.py", line 57, in migrate_user_schema
+    conn.execute(text("ALTER TABLE booking ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP"))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) Cannot add a column with non-constant default
+[SQL: ALTER TABLE booking ADD COLUMN created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-07 14:55:46] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-07 14:55:46] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-07 14:56:34] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 14:56:34] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-07 14:56:34] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-07 15:08:28] [INFO] [e8243e52] app: Request started
+[2026-08-07 15:08:28] [INFO] [e8243e52] app: Request completed
+[2026-08-07 15:08:28] [INFO] [N/A] werkzeug: 127.0.0.1 - - [07/Aug/2026 15:08:28] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-07 15:08:59] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 15:08:59] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 15:21:52] [INFO] [d025e7e6] app: Request started
+[2026-08-07 15:21:52] [INFO] [d025e7e6] app: Request completed
+[2026-08-07 15:21:52] [INFO] [N/A] werkzeug: 127.0.0.1 - - [07/Aug/2026 15:21:52] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-07 15:22:27] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 15:22:27] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-07 15:22:27] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-07 15:28:41] [INFO] [43afd3b5] app: Request started
+[2026-08-07 15:28:41] [INFO] [43afd3b5] app: Request completed
+[2026-08-07 15:28:41] [INFO] [N/A] werkzeug: 127.0.0.1 - - [07/Aug/2026 15:28:41] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-07 18:06:17] [INFO] [8a72a45a] app: Request started
+[2026-08-07 18:06:17] [ERROR] [8a72a45a] app: Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 883, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 904, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1281, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\User\LocalDev\travelingstar-backend\utils\logger.py", line 152, in log_response_info
+    'response_size': len(response.get_data())
+                         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\wrappers\response.py", line 281, in get_data
+    self._ensure_sequence()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\wrappers\response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+[2026-08-07 18:06:17] [ERROR] [8a72a45a] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 883, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 904, in finalize_request
+    response = self.process_response(response)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1281, in process_response
+    response = self.ensure_sync(func)(response)
+  File "C:\Users\User\LocalDev\travelingstar-backend\utils\logger.py", line 152, in log_response_info
+    'response_size': len(response.get_data())
+                         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\wrappers\response.py", line 281, in get_data
+    self._ensure_sequence()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\wrappers\response.py", line 329, in _ensure_sequence
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+[2026-08-07 18:06:17] [INFO] [8a72a45a] app: Request completed
+[2026-08-07 18:06:17] [INFO] [N/A] werkzeug: 127.0.0.1 - - [07/Aug/2026 18:06:17] "[35m[1mGET / HTTP/1.1[0m" 500 -
+[2026-08-07 18:33:06] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 18:33:06] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-07 18:33:06] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-07 18:33:43] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-07 18:33:43] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-07 18:33:43] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
