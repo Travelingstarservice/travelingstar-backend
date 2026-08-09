@@ -1,0 +1,49 @@
+# Database Migrations
+
+This directory contains database migrations using Flask-Migrate (Alembic).
+
+## Migration Commands
+
+### Create a new migration
+```bash
+flask db migrate -m "description of changes"
+```
+
+### Apply migrations
+```bash
+flask db upgrade
+```
+
+### Rollback migrations
+```bash
+flask db downgrade
+```
+
+### View migration history
+```bash
+flask db history
+```
+
+### View current migration status
+```bash
+flask db current
+```
+
+## Important Notes
+
+- Always create migrations after model changes
+- Test migrations on development before production
+- Never modify migration files directly
+- Keep migration names descriptive and clear
+- For SQLite, migrations are limited compared to PostgreSQL
+
+## Production Deployment
+
+For production (PostgreSQL):
+1. Set DATABASE_URL environment variable
+2. Run `flask db upgrade` during deployment
+3. Verify migration success in logs
+
+For development (SQLite):
+- Migrations will work but with some limitations
+- Consider using PostgreSQL for testing migrations

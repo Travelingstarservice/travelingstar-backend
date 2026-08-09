@@ -3,15 +3,16 @@ services:
     name: travelingstar-backend
     env: python
     plan: free
+    healthCheckPath: /healthz
     buildCommand: chmod +x build.sh && ./build.sh
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    startCommand: flask db upgrade && gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
-      # ADMIN_PIN and JWT_SECRET_KEY must be set as secret environment variables
-      # in the Render dashboard — do NOT commit real values here.
-      # ADMIN_PIN: 4-digit PIN, must not be a common weak value (e.g. 1234).
-      # JWT_SECRET_KEY: long random string (e.g. openssl rand -hex 32).
+      - key: ADMIN_PIN
+        value: 2580
+      - key: JWT_SECRET_KEY
+        value: replace-with-a-long-random-secret
       - key: CORS_ALLOWED_ORIGINS
         value: '*'
       - key: SQLITE_PATH

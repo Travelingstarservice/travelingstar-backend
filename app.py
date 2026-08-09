@@ -1,10 +1,11 @@
 import os
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from sqlalchemy import inspect as sa_inspect, text
+from sqlalchemy import text
 from extensions import jwt, db
 from models.user import User
 from models.site_config import SiteConfig
+from utils.logger import setup_logging
 
 # Import all blueprints
 from routes.auth_routes import auth_bp
@@ -17,54 +18,25 @@ from routes.payment_routes import payment_bp
 from routes.ai_routes import ai_bp
 from routes.dispatch_routes import dispatch_bp
 
+# Initialize Flask-Migrate
+migrate = Migrate()
+
 
 def migrate_user_schema():
-    inspector = sa_inspect(db.engine)
-    dialect = db.engine.dialect.name
-
-    # SQLite-only: add columns that were added after initial schema creation.
-    # On PostgreSQL the columns are always created by db.create_all() from the
-    # current model definitions, so no manual ALTER TABLE is needed.
-    if dialect != 'sqlite':
-        return
-
     with db.engine.begin() as conn:
-        user_columns = {col['name'] for col in inspector.get_columns('user')}
+        user_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(user)'))}
         if 'role' not in user_columns:
             conn.execute(text("ALTER TABLE user ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
         if 'login_disabled' not in user_columns:
             conn.execute(text("ALTER TABLE user ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT 0"))
 
-        booking_columns = {col['name'] for col in inspector.get_columns('booking')}
+        booking_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(booking)'))}
         if 'date' not in booking_columns:
             conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
 
-        event_columns = {col['name'] for col in inspector.get_columns('event')}
+        event_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(event)'))}
         if 'image' not in event_columns:
             conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
-
-
-_KNOWN_WEAK_PINS = {'1234', '0000', '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999'}
-_PLACEHOLDER_SECRETS = {'replace-with-a-long-random-secret', 'traveling-star-demo-secret-key-1234567890', ''}
-
-
-def _validate_startup_secrets():
-    jwt_secret = os.getenv('JWT_SECRET_KEY', '').strip()
-    if not jwt_secret or jwt_secret in _PLACEHOLDER_SECRETS:
-        raise RuntimeError(
-            "JWT_SECRET_KEY is not set or is a placeholder. "
-            "Set a strong random secret in your environment before starting the app."
-        )
-
-    admin_pin = os.getenv('ADMIN_PIN', '').strip()
-    if not admin_pin or not (len(admin_pin) == 4 and admin_pin.isdigit()):
-        raise RuntimeError(
-            "ADMIN_PIN must be set to a 4-digit number in your environment."
-        )
-    if admin_pin in _KNOWN_WEAK_PINS:
-        raise RuntimeError(
-            f"ADMIN_PIN '{admin_pin}' is too weak. Choose a non-sequential 4-digit PIN."
-        )
 
 
 def seed_demo_admin():
@@ -106,6 +78,30 @@ def validate_sqlite_path(sqlite_path):
         ) from exc
 
 
+def parse_cors_origins(raw_value):
+    value = (raw_value or '*').strip()
+    if (value.startswith("'") and value.endswith("'")) or (value.startswith('"') and value.endswith('"')):
+        value = value[1:-1].strip()
+
+    if not value:
+        return '*'
+    if value == '*':
+        return '*'
+
+    origins = [origin.strip() for origin in value.split(',') if origin.strip()]
+    return origins or '*'
+
+
+def resolve_cors_origin(cors_origins, request_origin):
+    if cors_origins == '*':
+        return '*'
+    if not request_origin:
+        return None
+    if isinstance(cors_origins, list) and request_origin in cors_origins:
+        return request_origin
+    return None
+
+
 def create_app():
     _validate_startup_secrets()
     app = Flask(__name__)
@@ -142,15 +138,61 @@ def create_app():
         app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{sqlite_path}"
 
     # Extensions
-    cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '*')
-    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+    cors_origins = parse_cors_origins(os.getenv('CORS_ALLOWED_ORIGINS', '*'))
+    app.config['CORS_ALLOWED_ORIGINS'] = cors_origins
+
+    @app.after_request
+    def add_api_cors_headers(response):
+        if request.path.startswith('/api/'):
+            origin = request.headers.get('Origin')
+            allowed_origin = resolve_cors_origin(app.config['CORS_ALLOWED_ORIGINS'], origin)
+            if allowed_origin:
+                response.headers['Access-Control-Allow-Origin'] = allowed_origin
+                if allowed_origin != '*':
+                    response.headers['Vary'] = 'Origin'
+
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = request.headers.get(
+                'Access-Control-Request-Headers',
+                'Content-Type, Authorization',
+            )
+            response.headers['Access-Control-Max-Age'] = '86400'
+
+        return response
+
+    CORS(
+        app,
+        resources={
+            r"/api/*": {
+                "origins": cors_origins,
+                "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+                "allow_headers": ["Content-Type", "Authorization"],
+                "max_age": 86400,
+            }
+        },
+    )
     jwt.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
+
+    # Setup comprehensive logging
+    setup_logging(app)
 
     with app.app_context():
-        db.create_all()
-        migrate_user_schema()
-        seed_demo_admin()
+        app.config['DB_READY'] = False
+        try:
+            db.create_all()
+            try:
+                migrate_user_schema()
+            except Exception as exc:
+                app.logger.exception('Non-fatal schema migration step failed during startup: %s', exc)
+            try:
+                seed_demo_admin()
+            except Exception as exc:
+                app.logger.exception('Non-fatal admin seed step failed during startup: %s', exc)
+            app.config['DB_READY'] = True
+        except Exception as exc:
+            app.logger.exception('Database initialization failed during startup: %s', exc)
 
     @app.get('/')
     def home():
@@ -162,6 +204,23 @@ def create_app():
         return jsonify({
             'message': 'Traveling Star API'
         })
+
+    @app.get('/healthz')
+    def healthz():
+        payload = {
+            'status': 'ok',
+            'db_ready': bool(app.config.get('DB_READY', False))
+        }
+        try:
+            db.session.execute(text('SELECT 1'))
+            payload['db_connected'] = True
+        except Exception as exc:
+            app.logger.exception('Health check failed: %s', exc)
+            payload['db_connected'] = False
+
+        # Keep this as a liveness probe so Render can keep the process up
+        # even if the database is temporarily unavailable.
+        return jsonify(payload), 200
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')

@@ -1,3 +1,15 @@
+"""
+Authentication routes for user registration, login, and password management.
+
+This module provides endpoints for:
+- User registration with 4-digit PINs
+- Login with PIN or email/password
+- Password changes
+- Admin password management with strong password support
+- Admin access control (lock/unlock)
+- Admin recovery mechanism
+"""
+
 import re
 import uuid
 import os
@@ -7,6 +19,8 @@ from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, jwt_required
 from models.user import User
 from extensions import db
+from utils.validators import validate_4digit_password, validate_email, sanitize_string, validate_password_strength
+from utils.rate_limiter import auth_rate_limit
 
 auth_bp = Blueprint('auth_bp', __name__)
 
@@ -61,118 +75,185 @@ def _require_admin_user():
 
 @auth_bp.post('/register')
 def register():
-    data = request.get_json() or {}
-    password = _normalize_password(data.get('password'))
+    try:
+        data = request.get_json() or {}
+        
+        # Validate password
+        password_valid, password = validate_4digit_password(data.get('password'))
+        if not password_valid:
+            return {'error': password}, 400
 
-    if not password or not re.fullmatch(r'\d{4}', password):
-        return {'error': 'please provide a 4-digit password'}, 400
+        admin = _get_admin_user()
+        if (admin and password == admin.password) or password == _admin_pin():
+            return {'error': 'that pin is reserved'}, 400
 
-    admin = _get_admin_user()
-    if (admin and password == admin.password) or password == _admin_pin():
-        return {'error': 'that pin is reserved'}, 400
+        # Validate email if provided
+        email = data.get('email')
+        if email:
+            email_valid, validated_email = validate_email(email)
+            if not email_valid:
+                return {'error': validated_email}, 400
+            email = validated_email
+        else:
+            email = _build_email(password)
 
-    email = data.get('email') or _build_email(password)
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        user = User(email=email, password=password, role='user')
-        db.session.add(user)
-        db.session.commit()
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(email=email, password=password, role='user')
+            db.session.add(user)
+            db.session.commit()
 
-    return {'message': 'registered'}
+        return {'message': 'registered'}
+    except Exception as e:
+        db.session.rollback()
+        return {'error': 'registration failed', 'details': str(e)}, 500
 
 
 @auth_bp.post('/login')
 def login():
-    data = request.get_json() or {}
-    password = _normalize_password(data.get('password'))
+    try:
+        data = request.get_json() or {}
+        
+        # Validate password
+        password_valid, password = validate_4digit_password(data.get('password'))
+        if not password_valid:
+            return {'error': password}, 400
 
-    if not password or not re.fullmatch(r'\d{4}', password):
-        return {'error': 'please provide a 4-digit password'}, 400
+        admin = _get_admin_user()
+        if admin and admin.password == password:
+            if admin.login_disabled:
+                return {'error': 'admin sign-in is disabled by owner'}, 403
+            user = admin
+        else:
+            user = User.query.filter_by(password=password, role='user').first()
+            if not user:
+                email = data.get('email')
+                if email:
+                    user = User.query.filter_by(email=email, role='user').first()
 
-    admin = _get_admin_user()
-    if admin and admin.password == password:
-        if admin.login_disabled:
-            return {'error': 'admin sign-in is disabled by owner'}, 403
-        user = admin
-    else:
-        user = User.query.filter_by(password=password, role='user').first()
-        if not user:
-            email = data.get('email')
-            if email:
-                user = User.query.filter_by(email=email, role='user').first()
+        if not user or user.password != password:
+            return {'error': 'invalid credentials'}, 401
 
-    if not user or user.password != password:
-        return {'error': 'invalid credentials'}, 401
+        token = create_access_token(
+            identity=str(user.id),
+            additional_claims={'role': user.role or 'user'}
+        )
+        role = user.role or ('admin' if user.email.lower() == 'admin@travelingstar.com' else 'user')
 
-    token = create_access_token(
-        identity=str(user.id),
-        additional_claims={'role': user.role or 'user'}
-    )
-    role = user.role or ('admin' if user.email.lower() == 'admin@travelingstar.com' else 'user')
-
-    return {
-        'token': token,
-        'role': role,
-        'email': user.email
-    }
+        return {
+            'token': token,
+            'role': role,
+            'email': user.email
+        }
+    except Exception as e:
+        return {'error': 'login failed', 'details': str(e)}, 500
 
 
 @auth_bp.post('/change-password')
 def change_password():
-    data = request.get_json() or {}
-    current_password = _normalize_password(data.get('current_password'))
-    new_password = _normalize_password(data.get('new_password'))
+    try:
+        data = request.get_json() or {}
+        
+        # Validate new password
+        new_password_valid, new_password = validate_4digit_password(data.get('new_password'))
+        if not new_password_valid:
+            return {'error': new_password}, 400
 
-    if not new_password or not re.fullmatch(r'\d{4}', new_password):
-        return {'error': 'please provide a 4-digit password'}, 400
+        if new_password == _admin_pin():
+            return {'error': 'that pin is reserved'}, 400
 
-    if new_password == _admin_pin():
-        return {'error': 'that pin is reserved'}, 400
+        user = None
+        current_password = _normalize_password(data.get('current_password'))
+        if current_password:
+            user = User.query.filter_by(password=current_password).first()
 
-    user = None
-    if current_password:
-        user = User.query.filter_by(password=current_password).first()
+        if not user:
+            user = User.query.filter_by(password=new_password).first()
 
-    if not user:
-        user = User.query.filter_by(password=new_password).first()
+        if not user:
+            email = _build_email(new_password)
+            user = User(email=email, password=new_password, role='user')
+            db.session.add(user)
+            db.session.commit()
+            return {'message': 'password created'}
 
-    if not user:
-        email = _build_email(new_password)
-        user = User(email=email, password=new_password, role='user')
-        db.session.add(user)
+        user.password = new_password
         db.session.commit()
-        return {'message': 'password created'}
-
-    user.password = new_password
-    db.session.commit()
-    return {'message': 'password updated'}
+        return {'message': 'password updated'}
+    except Exception as e:
+        db.session.rollback()
+        return {'error': 'password change failed', 'details': str(e)}, 500
 
 
 @auth_bp.post('/admin-password')
 @jwt_required()
 def change_admin_password():
-    admin, denied = _require_admin_user()
-    if denied:
-        return denied
+    try:
+        admin, denied = _require_admin_user()
+        if denied:
+            return denied
 
-    data = request.get_json() or {}
-    current_password = _normalize_password(data.get('current_password'))
-    new_password = _normalize_password(data.get('new_password'))
+        data = request.get_json() or {}
+        current_password = _normalize_password(data.get('current_password'))
+        new_password = _normalize_password(data.get('new_password'))
 
-    if not new_password or not re.fullmatch(r'\d{4}', new_password):
-        return {'error': 'please provide a 4-digit password'}, 400
+        if not new_password or not re.fullmatch(r'\d{4}', new_password):
+            return {'error': 'please provide a 4-digit password'}, 400
 
-    if current_password and admin.password != current_password:
-        return {'error': 'current password is incorrect'}, 400
+        if current_password and admin.password != current_password:
+            return {'error': 'current password is incorrect'}, 400
 
-    if new_password == admin.password:
-        return {'error': 'new password must be different'}, 400
+        if new_password == admin.password:
+            return {'error': 'new password must be different'}, 400
 
-    admin.password = new_password
-    admin.role = 'admin'
-    admin.login_disabled = False
-    db.session.commit()
-    return {'message': 'admin password updated'}
+        admin.password = new_password
+        admin.role = 'admin'
+        admin.login_disabled = False
+        db.session.commit()
+        return {'message': 'admin password updated'}
+    except Exception as e:
+        db.session.rollback()
+        return {'error': 'admin password change failed', 'details': str(e)}, 500
+
+
+@auth_bp.post('/admin-password/strong')
+@jwt_required()
+def change_admin_password_strong():
+    """
+    Change admin password to a strong password (optional for enhanced security).
+    This endpoint allows admins to use stronger passwords instead of 4-digit PINs.
+    """
+    try:
+        admin, denied = _require_admin_user()
+        if denied:
+            return denied
+
+        data = request.get_json() or {}
+        current_password = data.get('current_password')
+        new_password = data.get('new_password')
+
+        if not new_password:
+            return {'error': 'new password is required'}, 400
+
+        # Validate strong password
+        valid_password, validated_password = validate_password_strength(new_password, min_length=8)
+        if not valid_password:
+            return {'error': validated_password}, 400
+
+        if current_password and admin.password != current_password:
+            return {'error': 'current password is incorrect'}, 400
+
+        if validated_password == admin.password:
+            return {'error': 'new password must be different'}, 400
+
+        admin.password = validated_password
+        admin.role = 'admin'
+        admin.login_disabled = False
+        db.session.commit()
+        return {'message': 'admin password updated to strong password'}
+    except Exception as e:
+        db.session.rollback()
+        return {'error': 'admin password change failed', 'details': str(e)}, 500
 
 
 @auth_bp.get('/me')
