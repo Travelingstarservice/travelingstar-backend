@@ -23,9 +23,9 @@ try {
     exit 1
 }
 
-# Check current branch
-$currentBranch = & git branch --show-current
-Write-Host "Current branch: $currentBranch" -ForegroundColor Cyan
+# Set target branch to main (for Render deployment)
+$targetBranch = "main"
+Write-Host "Target branch: $targetBranch" -ForegroundColor Cyan
 
 # Stage all changes
 Write-Host "Staging changes..." -ForegroundColor Cyan
@@ -36,9 +36,9 @@ $commitMessage = "Deploy backend to Render: $(Get-Date -Format 'yyyy-MM-dd HH:mm
 Write-Host "Committing changes..." -ForegroundColor Cyan
 & git commit -m $commitMessage
 
-# Push to GitHub
-Write-Host "Pushing to GitHub..." -ForegroundColor Cyan
-& git push origin $currentBranch
+# Push to GitHub main branch
+Write-Host "Pushing to GitHub main branch..." -ForegroundColor Cyan
+& git push origin $targetBranch
 
 Write-Host "Deployment complete!" -ForegroundColor Green
 Write-Host "Render will automatically detect the push and deploy your application." -ForegroundColor Cyan
