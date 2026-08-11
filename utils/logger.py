@@ -141,7 +141,15 @@ def setup_logging(app):
     def log_response_info(response):
         if hasattr(g, 'start_time'):
             duration = (datetime.utcnow() - g.start_time).total_seconds() * 1000
-            
+
+            # Safely get response size, handle direct passthrough mode
+            response_size = 0
+            try:
+                response_size = len(response.get_data())
+            except (RuntimeError, TypeError):
+                # Response is in direct passthrough mode or cannot be measured
+                response_size = 0
+
             app.logger.info(
                 'Request completed',
                 extra={
@@ -149,10 +157,10 @@ def setup_logging(app):
                     'path': request.path,
                     'status_code': response.status_code,
                     'duration_ms': round(duration, 2),
-                    'response_size': len(response.get_data())
+                    'response_size': response_size
                 }
             )
-        
+
         # Add request ID to response headers
         response.headers['X-Request-ID'] = getattr(g, 'request_id', 'N/A')
         return response
