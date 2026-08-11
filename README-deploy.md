@@ -4,7 +4,7 @@
 
 - Runtime: Python 3.11
 - Build command: `pip install -r requirements.txt`
-- Start command: `gunicorn app:app`
+- Start command: `flask db upgrade && gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120`
 
 ## 2. Required environment variables
 
