@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from flask_migrate import Migrate
 from sqlalchemy import text
 from extensions import jwt, db
 from models.user import User
@@ -17,9 +18,6 @@ from routes.podcast_routes import podcast_bp
 from routes.payment_routes import payment_bp
 from routes.ai_routes import ai_bp
 from routes.dispatch_routes import dispatch_bp
-
-# Initialize Flask-Migrate
-migrate = Migrate()
 
 
 def migrate_user_schema():
@@ -105,7 +103,6 @@ def resolve_cors_origin(cors_origins, request_origin):
 
 
 def create_app():
-    _validate_startup_secrets()
     app = Flask(__name__)
     os.makedirs(app.instance_path, exist_ok=True)
 
@@ -175,7 +172,9 @@ def create_app():
     )
     jwt.init_app(app)
     db.init_app(app)
-    migrate.init_app(app, db)
+
+    # Initialize Flask-Migrate with correct pattern
+    migrate = Migrate(app, db)
 
     # Setup comprehensive logging
     setup_logging(app)
