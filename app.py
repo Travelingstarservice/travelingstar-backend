@@ -1,8 +1,7 @@
 import os
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from flask_migrate import Migrate
-from sqlalchemy import inspect, text
+from sqlalchemy import text
 from extensions import jwt, db
 from models.user import User
 from models.site_config import SiteConfig
@@ -24,70 +23,25 @@ migrate = Migrate()
 
 
 def migrate_user_schema():
-    """
-    Legacy migration function for backward compatibility.
-    New migrations should use Flask-Migrate.
-    This function only runs for existing databases without proper migrations.
-    """
     with db.engine.begin() as conn:
-        inspector = inspect(conn)
-        existing_tables = set(inspector.get_table_names())
-        bool_default = '0' if conn.dialect.name == 'sqlite' else 'FALSE'
+        user_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(user)'))}
+        if 'role' not in user_columns:
+            conn.execute(text("ALTER TABLE user ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
+        if 'login_disabled' not in user_columns:
+            conn.execute(text("ALTER TABLE user ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT 0"))
 
-        if 'user' in existing_tables:
-            user_columns = {col['name'] for col in inspector.get_columns('user')}
-            if 'role' not in user_columns:
-                conn.execute(text("ALTER TABLE \"user\" ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'user'"))
-            if 'login_disabled' not in user_columns:
-                conn.execute(text(f"ALTER TABLE \"user\" ADD COLUMN login_disabled BOOLEAN NOT NULL DEFAULT {bool_default}"))
+        booking_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(booking)'))}
+        if 'date' not in booking_columns:
+            conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
 
-        if 'booking' in existing_tables:
-            booking_columns = {col['name'] for col in inspector.get_columns('booking')}
-            if 'date' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN date VARCHAR(50) NOT NULL DEFAULT '2026-08-01'"))
-            if 'status' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'pending'"))
-            if 'notes' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN notes TEXT"))
-            if 'pickup_location' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN pickup_location VARCHAR(255)"))
-            if 'dropoff_location' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN dropoff_location VARCHAR(255)"))
-            if 'created_at' not in booking_columns:
-                # SQLite doesn't support non-constant defaults in ALTER TABLE
-                # Use a constant timestamp for migration
-                conn.execute(text("ALTER TABLE booking ADD COLUMN created_at DATETIME NOT NULL DEFAULT '2026-08-07 00:00:00'"))
-            if 'updated_at' not in booking_columns:
-                conn.execute(text("ALTER TABLE booking ADD COLUMN updated_at DATETIME NOT NULL DEFAULT '2026-08-07 00:00:00'"))
-
-        if 'event' in existing_tables:
-            event_columns = {col['name'] for col in inspector.get_columns('event')}
-            if 'image' not in event_columns:
-                conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
-
-        if 'fleet_job' in existing_tables:
-            fleet_job_columns = {col['name'] for col in inspector.get_columns('fleet_job')}
-            if 'job_app_source' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_source VARCHAR(80)"))
-            if 'job_app_id' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_id VARCHAR(120)"))
-            if 'job_app_url' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_url VARCHAR(500)"))
-            if 'job_app_status' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN job_app_status VARCHAR(40)"))
-            if 'earnings' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN earnings FLOAT"))
-            if 'rating' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN rating FLOAT"))
-            if 'tips' not in fleet_job_columns:
-                conn.execute(text("ALTER TABLE fleet_job ADD COLUMN tips FLOAT"))
+        event_columns = {row[1] for row in conn.execute(text('PRAGMA table_info(event)'))}
+        if 'image' not in event_columns:
+            conn.execute(text("ALTER TABLE event ADD COLUMN image VARCHAR(255) NULL"))
 
 
 def seed_demo_admin():
     admin_email = 'admin@travelingstar.com'
-    admin_password = os.getenv('ADMIN_PIN', '1234').strip()
-    if len(admin_password) != 4 or not admin_password.isdigit():
-        admin_password = '1234'
+    admin_password = os.getenv('ADMIN_PIN', '').strip()
     admin = User.query.filter_by(email=admin_email).first()
 
     if admin is None:
@@ -149,6 +103,7 @@ def resolve_cors_origin(cors_origins, request_origin):
 
 
 def create_app():
+    _validate_startup_secrets()
     app = Flask(__name__)
     os.makedirs(app.instance_path, exist_ok=True)
 
@@ -160,7 +115,7 @@ def create_app():
     app.config['FRONTEND_DIST_DIR'] = next((path for path in candidate_frontend_dirs if os.path.isdir(path)), candidate_frontend_dirs[0])
 
     # Config
-    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'traveling-star-demo-secret-key-1234567890')
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     database_url = os.getenv('DATABASE_URL')
