@@ -85,9 +85,9 @@ def migrate_user_schema():
 
 def seed_demo_admin():
     admin_email = 'admin@travelingstar.com'
-    admin_password = os.getenv('ADMIN_PIN', '1234').strip()
+    admin_password = os.getenv('ADMIN_PIN', '9404').strip()
     if len(admin_password) != 4 or not admin_password.isdigit():
-        admin_password = '1234'
+        admin_password = '9404'
     admin = User.query.filter_by(email=admin_email).first()
 
     if admin is None:
