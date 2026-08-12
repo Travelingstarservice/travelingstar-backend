@@ -77,7 +77,7 @@ def _require_admin_user():
 def register():
     try:
         data = request.get_json() or {}
-        
+
         # Validate password
         password_valid, password = validate_4digit_password(data.get('password'))
         if not password_valid:
@@ -103,7 +103,7 @@ def register():
             db.session.add(user)
             db.session.commit()
 
-        return {'message': 'registered'}
+        return {'message': 'registered', 'email': user.email}
     except Exception as e:
         db.session.rollback()
         return {'error': 'registration failed', 'details': str(e)}, 500
@@ -113,7 +113,7 @@ def register():
 def login():
     try:
         data = request.get_json() or {}
-        
+
         # Validate password
         password_valid, password = validate_4digit_password(data.get('password'))
         if not password_valid:
@@ -143,7 +143,8 @@ def login():
         return {
             'token': token,
             'role': role,
-            'email': user.email
+            'email': user.email,
+            'message': 'login successful'
         }
     except Exception as e:
         return {'error': 'login failed', 'details': str(e)}, 500
@@ -153,7 +154,7 @@ def login():
 def change_password():
     try:
         data = request.get_json() or {}
-        
+
         # Validate new password
         new_password_valid, new_password = validate_4digit_password(data.get('new_password'))
         if not new_password_valid:
@@ -175,7 +176,7 @@ def change_password():
             user = User(email=email, password=new_password, role='user')
             db.session.add(user)
             db.session.commit()
-            return {'message': 'password created'}
+            return {'message': 'password created', 'email': user.email}
 
         user.password = new_password
         db.session.commit()
@@ -270,7 +271,8 @@ def auth_me():
         'id': user.id,
         'email': user.email,
         'role': user.role or 'user',
-        'adminLoginEnabled': admin_login_enabled
+        'adminLoginEnabled': admin_login_enabled,
+        'message': 'user profile retrieved'
     }
 
 
@@ -312,7 +314,7 @@ def unlock_admin_access():
     admin.password = new_password
     admin.login_disabled = False
     db.session.commit()
-    return {'message': 'admin sign-in has been re-enabled'}
+    return {'message': 'admin sign-in has been re-enabled', 'password': new_password}
 
 
 @auth_bp.post('/admin/access/recover')
@@ -346,7 +348,7 @@ def recover_admin_access():
     admin.login_disabled = False
     db.session.commit()
 
-    return {'message': 'admin access recovered and sign-in re-enabled'}
+    return {'message': 'admin access recovered and sign-in re-enabled', 'password': new_password}
 
 
 @auth_bp.get('/owner/users')
@@ -365,7 +367,8 @@ def list_owner_users():
                 'role': user.role,
             }
             for user in users
-        ]
+        ],
+        'message': 'users retrieved successfully'
     }
 
 
@@ -416,7 +419,7 @@ def update_owner_user_password(user_id):
     user = User.query.get_or_404(user_id)
     user.password = new_password
     db.session.commit()
-    return {'message': 'user password updated'}
+    return {'message': 'user password updated', 'user_id': user_id}
 
 
 @auth_bp.delete('/owner/users/<int:user_id>')
@@ -432,4 +435,4 @@ def delete_owner_user(user_id):
 
     db.session.delete(user)
     db.session.commit()
-    return {'message': 'user deleted'}
+    return {'message': 'user deleted', 'user_id': user_id}
