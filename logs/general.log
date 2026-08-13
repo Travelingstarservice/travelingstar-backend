@@ -165,3 +165,15 @@ RuntimeError: Attempted implicit sequence conversion but the response object is 
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.1.157:5000
 [2026-08-10 15:11:18] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-10 20:47:28] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-10 20:47:28] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-10 20:47:28] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-10 20:48:05] [INFO] [6a0feb33] app: Request started
+[2026-08-10 20:48:05] [INFO] [6a0feb33] app: Request completed
+[2026-08-10 20:48:05] [INFO] [N/A] werkzeug: 127.0.0.1 - - [10/Aug/2026 20:48:05] "GET / HTTP/1.1" 200 -
+[2026-08-10 20:48:05] [INFO] [00334f30] app: Request started
+[2026-08-10 20:48:05] [INFO] [00334f30] app: Request completed
+[2026-08-10 20:48:05] [INFO] [N/A] werkzeug: 127.0.0.1 - - [10/Aug/2026 20:48:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
