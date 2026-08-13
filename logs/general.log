@@ -173,3 +173,234 @@ RuntimeError: Attempted implicit sequence conversion but the response object is 
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.1.157:5000
 [2026-08-12 02:58:19] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-12 03:38:13] [INFO] [b0706695] app: Request started
+[2026-08-12 03:38:13] [INFO] [b0706695] app: Request completed
+[2026-08-12 03:38:13] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 03:38:13] "[35m[1mPOST /api/auth/login HTTP/1.1[0m" 500 -
+[2026-08-12 03:40:22] [INFO] [b0b0854e] app: Request started
+[2026-08-12 03:40:22] [INFO] [b0b0854e] app: Request completed
+[2026-08-12 03:40:22] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 03:40:22] "[35m[1mPOST /api/auth/login HTTP/1.1[0m" 500 -
+[2026-08-12 04:02:26] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-12 04:02:26] [ERROR] [N/A] app: Database initialization failed during startup: (sqlite3.OperationalError) unable to open database file
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\impl.py", line 178, in _do_get
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\impl.py", line 176, in _do_get
+    return self._create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 389, in _create_connection
+    return _ConnectionRecord(self)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\User\LocalDev\travelingstar-backend\app.py", line 185, in create_app
+    db.create_all()
+    ~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask_sqlalchemy\extension.py", line 884, in create_all
+    self._call_for_binds(bind_key, "create_all")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask_sqlalchemy\extension.py", line 865, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\sql\schema.py", line 5930, in create_all
+    bind._run_ddl_visitor(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 3269, in _run_ddl_visitor
+    with self.begin() as conn:
+         ~~~~~~~~~~^^
+  File "C:\Python314\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 3259, in begin
+    with self.connect() as conn:
+         ~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\impl.py", line 178, in _do_get
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\impl.py", line 176, in _do_get
+    return self._create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 389, in _create_connection
+    return _ConnectionRecord(self)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) unable to open database file
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-12 04:02:26] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-12 04:02:26] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-12 04:02:37] [INFO] [13198b2c] app: Request started
+[2026-08-12 04:02:37] [INFO] [13198b2c] app: Request completed
+[2026-08-12 04:02:37] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 04:02:37] "[35m[1mPOST /api/auth/login HTTP/1.1[0m" 500 -
+[2026-08-12 04:02:51] [INFO] [9b591b85] app: Request started
+[2026-08-12 04:02:51] [INFO] [9b591b85] app: Request completed
+[2026-08-12 04:02:51] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 04:02:51] "[35m[1mPOST /api/auth/login HTTP/1.1[0m" 500 -
+[2026-08-12 04:03:14] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-12 04:03:14] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-12 04:03:14] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-12 04:03:27] [INFO] [4dad2407] app: Request started
+[2026-08-12 04:03:27] [INFO] [4dad2407] app: Request completed
+[2026-08-12 04:03:27] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 04:03:27] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-12 04:03:28] [INFO] [4b9c37cc] app: Request started
+[2026-08-12 04:03:28] [INFO] [4b9c37cc] app: Request completed
+[2026-08-12 04:03:28] [INFO] [N/A] werkzeug: 127.0.0.1 - - [12/Aug/2026 04:03:28] "GET /healthz HTTP/1.1" 200 -
+[2026-08-13 01:45:44] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 01:45:44] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-13 01:45:44] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-13 01:46:15] [INFO] [a5a913db] app: Request started
+[2026-08-13 01:46:15] [INFO] [a5a913db] app: Request completed
+[2026-08-13 01:46:15] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 01:46:15] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [ea025d6c] app: Request started
+[2026-08-13 02:02:42] [INFO] [ea025d6c] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET / HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [09e5319b] app: Request started
+[2026-08-13 02:02:42] [INFO] [09e5319b] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /assets/index-DRoJceor.js HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [ea687e68] app: Request started
+[2026-08-13 02:02:42] [INFO] [ea687e68] app: Request completed
+[2026-08-13 02:02:42] [INFO] [3b77ec29] app: Request started
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /assets/index-9AwW_YtX.css HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [3b77ec29] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /manifest.webmanifest HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [b64958a0] app: Request started
+[2026-08-13 02:02:42] [INFO] [b64958a0] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /traveling-star-banner.svg HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [d11b8b37] app: Request started
+[2026-08-13 02:02:42] [INFO] [d11b8b37] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /sw.js HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [5eaf9e57] app: Request started
+[2026-08-13 02:02:42] [INFO] [5eaf9e57] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /favicon.svg HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [0e50faa9] app: Request started
+[2026-08-13 02:02:42] [INFO] [0e50faa9] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /travelingstar-pos/icon-192.svg HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [422a2a37] app: Request started
+[2026-08-13 02:02:42] [INFO] [43fc0e26] app: Request started
+[2026-08-13 02:02:42] [INFO] [7d400c90] app: Request started
+[2026-08-13 02:02:42] [INFO] [422a2a37] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "[36mGET / HTTP/1.1[0m" 304 -
+[2026-08-13 02:02:42] [INFO] [43fc0e26] app: Request completed
+[2026-08-13 02:02:42] [INFO] [7d400c90] app: Request completed
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "GET /index.html HTTP/1.1" 200 -
+[2026-08-13 02:02:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:42] "[36mGET /manifest.webmanifest HTTP/1.1[0m" 304 -
+[2026-08-13 02:02:43] [INFO] [53d459ef] app: Request started
+[2026-08-13 02:02:43] [INFO] [ecbf57f4] app: Request started
+[2026-08-13 02:02:43] [INFO] [53d459ef] app: Request completed
+[2026-08-13 02:02:43] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:43] "GET /icon-192.svg HTTP/1.1" 200 -
+[2026-08-13 02:02:43] [INFO] [ecbf57f4] app: Request completed
+[2026-08-13 02:02:43] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 02:02:43] "GET /icon-512.svg HTTP/1.1" 200 -
+[2026-08-13 14:30:17] [INFO] [851374c9] app: Request started
+[2026-08-13 14:30:17] [INFO] [851374c9] app: Request completed
+[2026-08-13 14:30:17] [INFO] [N/A] werkzeug: 192.168.1.157 - - [13/Aug/2026 14:30:17] "GET / HTTP/1.1" 200 -
+[2026-08-13 14:30:25] [INFO] [33e2899f] app: Request started
+[2026-08-13 14:30:25] [ERROR] [33e2899f] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-13 14:30:25] [INFO] [33e2899f] app: Request completed
+[2026-08-13 14:30:25] [INFO] [N/A] werkzeug: 192.168.1.157 - - [13/Aug/2026 14:30:25] "[31m[1mGET / HTTP/1.1[0m" 400 -
+[2026-08-13 14:30:26] [INFO] [37be11b3] app: Request started
+[2026-08-13 14:30:26] [INFO] [37be11b3] app: Request completed
+[2026-08-13 14:30:26] [INFO] [N/A] werkzeug: 192.168.1.157 - - [13/Aug/2026 14:30:26] "GET /loginMsg.js HTTP/1.1" 200 -
+[2026-08-13 14:30:26] [INFO] [d82c2dfe] app: Request started
+[2026-08-13 14:30:26] [INFO] [d82c2dfe] app: Request completed
+[2026-08-13 14:30:26] [INFO] [N/A] werkzeug: 192.168.1.157 - - [13/Aug/2026 14:30:26] "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 200 -
