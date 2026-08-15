@@ -2,7 +2,7 @@ services:
   - type: web
     name: travelingstar-backend
     env: python
-    plan: free
+    plan: starter
     healthCheckPath: /healthz
     buildCommand: chmod +x build.sh && ./build.sh
     startCommand: flask db upgrade && gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
