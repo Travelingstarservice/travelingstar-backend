@@ -4,6 +4,9 @@
 $adminPassword = "9404"
 $baseUrl = "http://travelingstarservice.com"
 
+Write-Host "Using base URL: $baseUrl"
+Write-Host "Admin password: $adminPassword"
+
 function Write-Section($text) {
     Write-Host "`n=== $text ===" -ForegroundColor Cyan
 }
