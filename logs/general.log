@@ -777,3 +777,60 @@ werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or 
 [2026-08-17 11:57:54] [INFO] [bca6f658] app: Request started
 [2026-08-17 11:57:54] [INFO] [bca6f658] app: Request completed
 [2026-08-17 11:57:54] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:54] "GET /rootDesc.xml HTTP/1.1" 200 -
+[2026-08-17 16:09:01] [INFO] [a2d25091] app: Request started
+[2026-08-17 16:09:01] [INFO] [a2d25091] app: Request completed
+[2026-08-17 16:09:01] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:09:01] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-17 16:09:17] [INFO] [f931fe30] app: Request started
+[2026-08-17 16:09:17] [INFO] [f931fe30] app: Request completed
+[2026-08-17 16:09:17] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:09:17] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:09:35] [INFO] [61d93998] app: Request started
+[2026-08-17 16:09:35] [INFO] [61d93998] app: Request completed
+[2026-08-17 16:09:35] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:09:35] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:09:48] [INFO] [25d620c8] app: Request started
+[2026-08-17 16:09:48] [INFO] [25d620c8] app: Request completed
+[2026-08-17 16:09:48] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:09:48] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:09:48] [INFO] [de6edd59] app: Request started
+[2026-08-17 16:09:48] [INFO] [de6edd59] app: Request completed
+[2026-08-17 16:09:48] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:09:48] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:03] [INFO] [820b2ee3] app: Request started
+[2026-08-17 16:10:03] [INFO] [820b2ee3] app: Request completed
+[2026-08-17 16:10:03] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:03] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:12] [INFO] [f380f6e7] app: Request started
+[2026-08-17 16:10:12] [INFO] [f380f6e7] app: Request completed
+[2026-08-17 16:10:12] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:12] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:14] [INFO] [45ee271f] app: Request started
+[2026-08-17 16:10:14] [INFO] [45ee271f] app: Request completed
+[2026-08-17 16:10:14] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:14] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:34] [INFO] [74508dcc] app: Request started
+[2026-08-17 16:10:34] [INFO] [74508dcc] app: Request completed
+[2026-08-17 16:10:34] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:34] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:36] [INFO] [e209a689] app: Request started
+[2026-08-17 16:10:36] [INFO] [e209a689] app: Request completed
+[2026-08-17 16:10:36] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:36] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:45] [INFO] [db609225] app: Request started
+[2026-08-17 16:10:45] [INFO] [db609225] app: Request completed
+[2026-08-17 16:10:45] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:45] "OPTIONS /api/api/auth/change-password HTTP/1.1" 200 -
+[2026-08-17 16:10:53] [INFO] [87cede6a] app: Request started
+[2026-08-17 16:10:53] [INFO] [87cede6a] app: Request completed
+[2026-08-17 16:10:53] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:53] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:10:55] [INFO] [ea54920f] app: Request started
+[2026-08-17 16:10:55] [INFO] [ea54920f] app: Request completed
+[2026-08-17 16:10:55] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:10:55] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-17 16:11:00] [INFO] [8326a63c] app: Request started
+[2026-08-17 16:11:00] [INFO] [8326a63c] app: Request completed
+[2026-08-17 16:11:00] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:11:00] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-17 16:11:10] [INFO] [6efa9d6a] app: Request started
+[2026-08-17 16:11:10] [INFO] [6efa9d6a] app: Request completed
+[2026-08-17 16:11:10] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:11:10] "GET /api/settings/payments HTTP/1.1" 200 -
+[2026-08-17 16:11:24] [INFO] [8d756f86] app: Request started
+[2026-08-17 16:11:24] [INFO] [8d756f86] app: Request completed
+[2026-08-17 16:11:24] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:11:24] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-17 16:11:26] [INFO] [f2298ca4] app: Request started
+[2026-08-17 16:11:26] [INFO] [f2298ca4] app: Request completed
+[2026-08-17 16:11:26] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:11:26] "[32mGET /api/events HTTP/1.1[0m" 308 -
+[2026-08-17 16:12:22] [INFO] [fbf92271] app: Request started
+[2026-08-17 16:12:22] [INFO] [fbf92271] app: Request completed
+[2026-08-17 16:12:22] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:12:22] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-17 16:12:36] [INFO] [e66abb1e] app: Request started
+[2026-08-17 16:12:36] [INFO] [e66abb1e] app: Request completed
+[2026-08-17 16:12:36] [INFO] [N/A] werkzeug: 127.0.0.1 - - [17/Aug/2026 16:12:36] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
