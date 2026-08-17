@@ -173,3 +173,607 @@ RuntimeError: Attempted implicit sequence conversion but the response object is 
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.1.157:5000
 [2026-08-12 02:58:19] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-13 19:50:06] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:07] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-13 19:50:07] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-13 19:50:19] [INFO] [79d8744a] app: Request started
+[2026-08-13 19:50:19] [INFO] [79d8744a] app: Request completed
+[2026-08-13 19:50:19] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:50:19] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 401 -
+[2026-08-13 19:50:24] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:24] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:28] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:28] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:32] [INFO] [ac059f32] app: Request started
+[2026-08-13 19:50:32] [INFO] [ac059f32] app: Request completed
+[2026-08-13 19:50:32] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:50:32] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-13 19:50:52] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-13 19:50:52] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-13 19:50:52] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-13 19:57:02] [INFO] [f999df14] app: Request started
+[2026-08-13 19:57:02] [INFO] [f999df14] app: Request completed
+[2026-08-13 19:57:02] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:57:02] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-13 19:57:30] [INFO] [013fb526] app: Request started
+[2026-08-13 19:57:30] [INFO] [013fb526] app: Request completed
+[2026-08-13 19:57:30] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:57:30] "OPTIONS /api/api/auth/change-password HTTP/1.1" 200 -
+[2026-08-13 19:57:36] [INFO] [318bcc8e] app: Request started
+[2026-08-13 19:57:36] [INFO] [318bcc8e] app: Request completed
+[2026-08-13 19:57:36] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:57:36] "OPTIONS /api/api/auth/change-password HTTP/1.1" 200 -
+[2026-08-13 19:57:41] [INFO] [1e4038ae] app: Request started
+[2026-08-13 19:57:41] [INFO] [1e4038ae] app: Request completed
+[2026-08-13 19:57:41] [INFO] [N/A] werkzeug: 127.0.0.1 - - [13/Aug/2026 19:57:41] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-14 15:30:06] [INFO] [4d55098b] app: Request started
+[2026-08-14 15:30:07] [INFO] [4d55098b] app: Request completed
+[2026-08-14 15:30:07] [INFO] [N/A] werkzeug: 192.168.1.157 - - [14/Aug/2026 15:30:07] "GET / HTTP/1.1" 200 -
+[2026-08-14 15:30:16] [INFO] [ac221130] app: Request started
+[2026-08-14 15:30:16] [ERROR] [ac221130] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-14 15:30:16] [INFO] [ac221130] app: Request completed
+[2026-08-14 15:30:16] [INFO] [N/A] werkzeug: 192.168.1.157 - - [14/Aug/2026 15:30:16] "[31m[1mGET / HTTP/1.1[0m" 400 -
+[2026-08-14 15:30:17] [INFO] [f8a984a6] app: Request started
+[2026-08-14 15:30:17] [INFO] [f8a984a6] app: Request completed
+[2026-08-14 15:30:17] [INFO] [N/A] werkzeug: 192.168.1.157 - - [14/Aug/2026 15:30:17] "GET /loginMsg.js HTTP/1.1" 200 -
+[2026-08-14 15:30:17] [INFO] [607429ee] app: Request started
+[2026-08-14 15:30:17] [INFO] [607429ee] app: Request completed
+[2026-08-14 15:30:17] [INFO] [N/A] werkzeug: 192.168.1.157 - - [14/Aug/2026 15:30:17] "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 200 -
+[2026-08-14 15:30:19] [INFO] [008a465b] app: Request started
+[2026-08-14 15:30:19] [INFO] [008a465b] app: Request completed
+[2026-08-14 15:30:19] [INFO] [N/A] werkzeug: 192.168.1.157 - - [14/Aug/2026 15:30:19] "GET /rootDesc.xml HTTP/1.1" 200 -
+[2026-08-14 17:39:31] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-14 17:39:32] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-14 17:39:32] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-14 17:40:16] [INFO] [9762f44e] app: Request started
+[2026-08-14 17:40:16] [INFO] [9762f44e] app: Request completed
+[2026-08-14 17:40:16] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 17:40:16] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 17:54:41] [INFO] [1ff95fe8] app: Request started
+[2026-08-14 17:54:41] [INFO] [1ff95fe8] app: Request completed
+[2026-08-14 17:54:41] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 17:54:41] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-14 17:55:28] [INFO] [5ea40b29] app: Request started
+[2026-08-14 17:55:28] [INFO] [5ea40b29] app: Request completed
+[2026-08-14 17:55:28] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 17:55:28] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-14 17:58:45] [INFO] [ed30d0e1] app: Request started
+[2026-08-14 17:58:45] [INFO] [ed30d0e1] app: Request completed
+[2026-08-14 17:58:45] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 17:58:45] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-14 17:58:55] [INFO] [6b7bb5ed] app: Request started
+[2026-08-14 17:58:55] [INFO] [6b7bb5ed] app: Request completed
+[2026-08-14 17:58:55] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 17:58:55] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:00:48] [INFO] [189595bc] app: Request started
+[2026-08-14 18:00:48] [INFO] [189595bc] app: Request completed
+[2026-08-14 18:00:48] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:00:48] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-14 18:01:11] [INFO] [fb8134c1] app: Request started
+[2026-08-14 18:01:11] [INFO] [fb8134c1] app: Request completed
+[2026-08-14 18:01:11] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:01:11] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:01:25] [INFO] [43fa05e9] app: Request started
+[2026-08-14 18:01:25] [INFO] [43fa05e9] app: Request completed
+[2026-08-14 18:01:25] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:01:25] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:01:38] [INFO] [f4abb33f] app: Request started
+[2026-08-14 18:01:38] [INFO] [f4abb33f] app: Request completed
+[2026-08-14 18:01:38] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:01:38] "OPTIONS /api/api/auth/change-password HTTP/1.1" 200 -
+[2026-08-14 18:01:55] [INFO] [64abcdba] app: Request started
+[2026-08-14 18:01:55] [INFO] [64abcdba] app: Request completed
+[2026-08-14 18:01:55] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:01:55] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:06:54] [INFO] [d5b53f01] app: Request started
+[2026-08-14 18:06:54] [ERROR] [d5b53f01] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-14 18:06:54] [INFO] [d5b53f01] app: Request completed
+[2026-08-14 18:06:54] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:06:54] "[31m[1mPOST /auth/login HTTP/1.1[0m" 405 -
+[2026-08-14 18:08:38] [INFO] [1fee6894] app: Request started
+[2026-08-14 18:08:38] [INFO] [1fee6894] app: Request completed
+[2026-08-14 18:08:38] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:08:38] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-14 18:08:40] [INFO] [9acf8b82] app: Request started
+[2026-08-14 18:08:40] [INFO] [9acf8b82] app: Request completed
+[2026-08-14 18:08:40] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:08:40] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:08:59] [INFO] [437628a2] app: Request started
+[2026-08-14 18:08:59] [INFO] [437628a2] app: Request completed
+[2026-08-14 18:08:59] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:08:59] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:09:07] [INFO] [9a4b4948] app: Request started
+[2026-08-14 18:09:07] [INFO] [9a4b4948] app: Request completed
+[2026-08-14 18:09:07] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:09:07] "OPTIONS /api/auth/change-password HTTP/1.1" 200 -
+[2026-08-14 18:10:37] [INFO] [bf160630] app: Request started
+[2026-08-14 18:10:37] [INFO] [bf160630] app: Request completed
+[2026-08-14 18:10:37] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:10:37] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:12:36] [INFO] [a72e2712] app: Request started
+[2026-08-14 18:12:36] [INFO] [a72e2712] app: Request completed
+[2026-08-14 18:12:36] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:12:36] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:13:52] [INFO] [e945f0bf] app: Request started
+[2026-08-14 18:13:52] [INFO] [e945f0bf] app: Request completed
+[2026-08-14 18:13:52] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:13:52] "GET /api/api/settings/payments HTTP/1.1" 200 -
+[2026-08-14 18:14:23] [INFO] [b1f8ff98] app: Request started
+[2026-08-14 18:14:23] [INFO] [b1f8ff98] app: Request completed
+[2026-08-14 18:14:23] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:14:23] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:20:49] [INFO] [ccd3a64d] app: Request started
+[2026-08-14 18:20:49] [INFO] [ccd3a64d] app: Request completed
+[2026-08-14 18:20:49] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:20:49] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-14 18:21:25] [INFO] [fbe76967] app: Request started
+[2026-08-14 18:21:25] [INFO] [fbe76967] app: Request completed
+[2026-08-14 18:21:25] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:21:25] "[32mGET /api/events HTTP/1.1[0m" 308 -
+[2026-08-14 18:21:42] [INFO] [4e344fc3] app: Request started
+[2026-08-14 18:21:42] [INFO] [4e344fc3] app: Request completed
+[2026-08-14 18:21:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:21:42] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-14 18:22:08] [INFO] [81ab8331] app: Request started
+[2026-08-14 18:22:08] [INFO] [81ab8331] app: Request completed
+[2026-08-14 18:22:08] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:22:08] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-14 18:22:24] [INFO] [084825be] app: Request started
+[2026-08-14 18:22:24] [INFO] [084825be] app: Request completed
+[2026-08-14 18:22:24] [INFO] [N/A] werkzeug: 127.0.0.1 - - [14/Aug/2026 18:22:24] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+[2026-08-15 00:42:54] [INFO] [b65cd931] app: Request started
+[2026-08-15 00:42:54] [INFO] [b65cd931] app: Request completed
+[2026-08-15 00:42:54] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:42:54] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 00:43:11] [INFO] [18dba754] app: Request started
+[2026-08-15 00:43:11] [INFO] [18dba754] app: Request completed
+[2026-08-15 00:43:11] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:43:11] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:51:04] [INFO] [4ba0ac73] app: Request started
+[2026-08-15 00:51:04] [INFO] [4ba0ac73] app: Request completed
+[2026-08-15 00:51:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:04] "OPTIONS /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 00:51:04] [INFO] [895b4404] app: Request started
+[2026-08-15 00:51:04] [INFO] [895b4404] app: Request completed
+[2026-08-15 00:51:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:04] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 00:51:04] [INFO] [85362444] app: Request started
+[2026-08-15 00:51:04] [INFO] [85362444] app: Request completed
+[2026-08-15 00:51:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:04] "OPTIONS /api/api/settings HTTP/1.1" 200 -
+[2026-08-15 00:51:04] [INFO] [47d0ea56] app: Request started
+[2026-08-15 00:51:04] [INFO] [47d0ea56] app: Request completed
+[2026-08-15 00:51:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:04] "GET /api/api/settings HTTP/1.1" 200 -
+[2026-08-15 00:51:50] [INFO] [b583e50e] app: Request started
+[2026-08-15 00:51:50] [INFO] [b583e50e] app: Request completed
+[2026-08-15 00:51:50] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:50] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:51:50] [INFO] [200be7c5] app: Request started
+[2026-08-15 00:51:51] [INFO] [200be7c5] app: Request completed
+[2026-08-15 00:51:51] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:51] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:51:55] [INFO] [0b4e5134] app: Request started
+[2026-08-15 00:51:55] [INFO] [0b4e5134] app: Request completed
+[2026-08-15 00:51:55] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:51:55] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:52:13] [INFO] [c02cf338] app: Request started
+[2026-08-15 00:52:13] [INFO] [c02cf338] app: Request completed
+[2026-08-15 00:52:13] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:52:13] "[32mOPTIONS /api/events HTTP/1.1[0m" 308 -
+[2026-08-15 00:52:18] [INFO] [70aff20e] app: Request started
+[2026-08-15 00:52:18] [INFO] [70aff20e] app: Request completed
+[2026-08-15 00:52:18] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:52:18] "[36mGET /api/api/settings/homepage HTTP/1.1[0m" 304 -
+[2026-08-15 00:52:18] [INFO] [01eb73d6] app: Request started
+[2026-08-15 00:52:18] [INFO] [01eb73d6] app: Request completed
+[2026-08-15 00:52:18] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:52:18] "[36mGET /api/api/settings HTTP/1.1[0m" 304 -
+[2026-08-15 00:52:46] [INFO] [c9047c93] app: Request started
+[2026-08-15 00:52:46] [INFO] [c9047c93] app: Request completed
+[2026-08-15 00:52:46] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:52:46] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:53:42] [INFO] [f77c41dd] app: Request started
+[2026-08-15 00:53:42] [INFO] [f77c41dd] app: Request completed
+[2026-08-15 00:53:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:53:42] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-15 00:53:42] [INFO] [da880a59] app: Request started
+[2026-08-15 00:53:42] [ERROR] [da880a59] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:42] [INFO] [da880a59] app: Request completed
+[2026-08-15 00:53:42] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:53:42] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 00:53:48] [INFO] [a77a9cd6] app: Request started
+[2026-08-15 00:53:48] [ERROR] [a77a9cd6] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:48] [INFO] [a77a9cd6] app: Request completed
+[2026-08-15 00:53:48] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:53:48] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 00:53:57] [INFO] [5f1e5f6c] app: Request started
+[2026-08-15 00:53:57] [ERROR] [5f1e5f6c] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:57] [INFO] [5f1e5f6c] app: Request completed
+[2026-08-15 00:53:57] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:53:57] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 00:54:10] [INFO] [ce13a9f0] app: Request started
+[2026-08-15 00:54:10] [ERROR] [ce13a9f0] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:10] [INFO] [ce13a9f0] app: Request completed
+[2026-08-15 00:54:10] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:10] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 00:54:18] [INFO] [2b43fe43] app: Request started
+[2026-08-15 00:54:18] [ERROR] [2b43fe43] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:18] [INFO] [2b43fe43] app: Request completed
+[2026-08-15 00:54:18] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:18] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 00:54:28] [INFO] [ccd8f2fc] app: Request started
+[2026-08-15 00:54:28] [INFO] [ccd8f2fc] app: Request completed
+[2026-08-15 00:54:28] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:28] "OPTIONS /api/api/auth/change-password HTTP/1.1" 200 -
+[2026-08-15 00:54:28] [INFO] [7bbaa911] app: Request started
+[2026-08-15 00:54:28] [ERROR] [7bbaa911] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:28] [INFO] [7bbaa911] app: Request completed
+[2026-08-15 00:54:28] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:28] "[31m[1mPOST /api/api/auth/change-password HTTP/1.1[0m" 405 -
+[2026-08-15 00:54:39] [INFO] [68d591d7] app: Request started
+[2026-08-15 00:54:39] [INFO] [68d591d7] app: Request completed
+[2026-08-15 00:54:39] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:39] "[36mGET /api/api/settings/homepage HTTP/1.1[0m" 304 -
+[2026-08-15 00:54:39] [INFO] [00e3c606] app: Request started
+[2026-08-15 00:54:39] [INFO] [00e3c606] app: Request completed
+[2026-08-15 00:54:39] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:39] "[36mGET /api/api/settings HTTP/1.1[0m" 304 -
+[2026-08-15 00:54:59] [INFO] [3bc79031] app: Request started
+[2026-08-15 00:54:59] [ERROR] [3bc79031] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:59] [INFO] [3bc79031] app: Request completed
+[2026-08-15 00:54:59] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 00:54:59] "[31m[1mPOST /api/api/auth/login HTTP/1.1[0m" 405 -
+[2026-08-15 01:13:29] [INFO] [c88afb04] app: Request started
+[2026-08-15 01:13:29] [INFO] [c88afb04] app: Request completed
+[2026-08-15 01:13:29] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:13:29] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:14:32] [INFO] [89266a95] app: Request started
+[2026-08-15 01:14:32] [INFO] [89266a95] app: Request completed
+[2026-08-15 01:14:32] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:14:32] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:14:56] [INFO] [5f89b322] app: Request started
+[2026-08-15 01:14:56] [INFO] [5f89b322] app: Request completed
+[2026-08-15 01:14:56] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:14:56] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:14:57] [INFO] [b9fe277b] app: Request started
+[2026-08-15 01:14:57] [INFO] [b9fe277b] app: Request completed
+[2026-08-15 01:14:57] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:14:57] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:14:58] [INFO] [6af18151] app: Request started
+[2026-08-15 01:14:58] [INFO] [6af18151] app: Request completed
+[2026-08-15 01:14:58] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:14:58] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:15:10] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-15 01:15:10] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-15 01:15:10] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-15 01:15:26] [INFO] [0f32b3c1] app: Request started
+[2026-08-15 01:15:26] [INFO] [0f32b3c1] app: Request completed
+[2026-08-15 01:15:26] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:15:26] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:15:56] [INFO] [b43b9241] app: Request started
+[2026-08-15 01:15:56] [INFO] [b43b9241] app: Request completed
+[2026-08-15 01:15:56] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:15:56] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:16:16] [INFO] [cb7be962] app: Request started
+[2026-08-15 01:16:16] [INFO] [cb7be962] app: Request completed
+[2026-08-15 01:16:16] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:16:16] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:16:30] [INFO] [1c201031] app: Request started
+[2026-08-15 01:16:30] [INFO] [1c201031] app: Request completed
+[2026-08-15 01:16:30] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:16:30] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:16:41] [INFO] [882a220f] app: Request started
+[2026-08-15 01:16:41] [INFO] [882a220f] app: Request completed
+[2026-08-15 01:16:41] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:16:41] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:17:34] [INFO] [d5967652] app: Request started
+[2026-08-15 01:17:34] [INFO] [d5967652] app: Request completed
+[2026-08-15 01:17:34] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:17:34] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:18:04] [INFO] [dc7f3477] app: Request started
+[2026-08-15 01:18:04] [INFO] [dc7f3477] app: Request completed
+[2026-08-15 01:18:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:18:04] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:18:19] [INFO] [25a9ac1e] app: Request started
+[2026-08-15 01:18:19] [INFO] [25a9ac1e] app: Request completed
+[2026-08-15 01:18:19] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:18:19] "[32mGET /api/events HTTP/1.1[0m" 308 -
+[2026-08-15 01:19:50] [INFO] [9b2517a7] app: Request started
+[2026-08-15 01:19:50] [INFO] [9b2517a7] app: Request completed
+[2026-08-15 01:19:50] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:19:50] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:20:08] [INFO] [fe3e4108] app: Request started
+[2026-08-15 01:20:08] [INFO] [fe3e4108] app: Request completed
+[2026-08-15 01:20:08] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:20:08] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:20:30] [INFO] [a697a54d] app: Request started
+[2026-08-15 01:20:30] [INFO] [a697a54d] app: Request completed
+[2026-08-15 01:20:30] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:20:30] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:21:08] [INFO] [N/A] app: Logging system initialized successfully
+[2026-08-15 01:21:08] [INFO] [N/A] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.157:5000
+[2026-08-15 01:21:08] [INFO] [N/A] werkzeug: [33mPress CTRL+C to quit[0m
+[2026-08-15 01:22:20] [INFO] [5f8b25d1] app: Request started
+[2026-08-15 01:22:20] [INFO] [5f8b25d1] app: Request completed
+[2026-08-15 01:22:20] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:22:20] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:22:24] [INFO] [68bfc446] app: Request started
+[2026-08-15 01:22:24] [INFO] [68bfc446] app: Request completed
+[2026-08-15 01:22:24] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:22:24] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:22:26] [INFO] [f05caeb1] app: Request started
+[2026-08-15 01:22:26] [INFO] [f05caeb1] app: Request completed
+[2026-08-15 01:22:26] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:22:26] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:22:38] [INFO] [7d6c7689] app: Request started
+[2026-08-15 01:22:38] [INFO] [7d6c7689] app: Request completed
+[2026-08-15 01:22:38] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:22:38] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:29:33] [INFO] [199cbe5c] app: Request started
+[2026-08-15 01:29:33] [INFO] [199cbe5c] app: Request completed
+[2026-08-15 01:29:33] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:29:33] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:34:06] [INFO] [1e7e5bbb] app: Request started
+[2026-08-15 01:34:06] [INFO] [2f8c119f] app: Request started
+[2026-08-15 01:34:06] [INFO] [1e7e5bbb] app: Request completed
+[2026-08-15 01:34:06] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:06] "GET /assets/index-DRoJceor.js HTTP/1.1" 200 -
+[2026-08-15 01:34:06] [INFO] [2f8c119f] app: Request completed
+[2026-08-15 01:34:06] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:06] "GET /assets/index-9AwW_YtX.css HTTP/1.1" 200 -
+[2026-08-15 01:34:06] [INFO] [f13280f3] app: Request started
+[2026-08-15 01:34:06] [INFO] [f13280f3] app: Request completed
+[2026-08-15 01:34:06] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:06] "GET /traveling-star-banner.svg HTTP/1.1" 200 -
+[2026-08-15 01:34:06] [INFO] [c010ffa4] app: Request started
+[2026-08-15 01:34:06] [INFO] [c010ffa4] app: Request completed
+[2026-08-15 01:34:06] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:06] "GET /travelingstar-pos/icon-192.svg HTTP/1.1" 200 -
+[2026-08-15 01:34:08] [INFO] [37430615] app: Request started
+[2026-08-15 01:34:08] [INFO] [37430615] app: Request completed
+[2026-08-15 01:34:08] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:08] "GET /sw.js HTTP/1.1" 200 -
+[2026-08-15 01:34:30] [INFO] [bf81e438] app: Request started
+[2026-08-15 01:34:30] [INFO] [bf81e438] app: Request completed
+[2026-08-15 01:34:30] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:30] "[36mGET /api/api/settings/homepage HTTP/1.1[0m" 304 -
+[2026-08-15 01:34:44] [INFO] [962fdf3a] app: Request started
+[2026-08-15 01:34:44] [INFO] [962fdf3a] app: Request completed
+[2026-08-15 01:34:44] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:44] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:34:49] [INFO] [0f68d242] app: Request started
+[2026-08-15 01:34:49] [INFO] [0f68d242] app: Request completed
+[2026-08-15 01:34:49] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:49] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:34:51] [INFO] [b59c17d8] app: Request started
+[2026-08-15 01:34:51] [INFO] [b59c17d8] app: Request completed
+[2026-08-15 01:34:51] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:51] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:34:52] [INFO] [7c06a86f] app: Request started
+[2026-08-15 01:34:52] [INFO] [7c06a86f] app: Request completed
+[2026-08-15 01:34:52] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:34:52] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:35:06] [INFO] [f3629e0c] app: Request started
+[2026-08-15 01:35:06] [INFO] [f3629e0c] app: Request completed
+[2026-08-15 01:35:06] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:35:06] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+[2026-08-15 01:38:00] [INFO] [4aabc713] app: Request started
+[2026-08-15 01:38:00] [INFO] [4aabc713] app: Request completed
+[2026-08-15 01:38:00] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:38:00] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:39:05] [INFO] [a98a3967] app: Request started
+[2026-08-15 01:39:05] [INFO] [a98a3967] app: Request completed
+[2026-08-15 01:39:05] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:39:05] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:39:15] [INFO] [50879d69] app: Request started
+[2026-08-15 01:39:15] [INFO] [50879d69] app: Request completed
+[2026-08-15 01:39:15] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:39:15] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:39:31] [INFO] [44df15ff] app: Request started
+[2026-08-15 01:39:31] [INFO] [44df15ff] app: Request completed
+[2026-08-15 01:39:31] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:39:31] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:39:36] [INFO] [46aeb92f] app: Request started
+[2026-08-15 01:39:36] [INFO] [46aeb92f] app: Request completed
+[2026-08-15 01:39:36] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:39:36] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:40:09] [INFO] [058bce76] app: Request started
+[2026-08-15 01:40:09] [INFO] [058bce76] app: Request completed
+[2026-08-15 01:40:09] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:40:09] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:40:39] [INFO] [30b19bf4] app: Request started
+[2026-08-15 01:40:39] [INFO] [30b19bf4] app: Request completed
+[2026-08-15 01:40:39] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:40:39] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:40:41] [INFO] [cb7fdda7] app: Request started
+[2026-08-15 01:40:41] [INFO] [cb7fdda7] app: Request completed
+[2026-08-15 01:40:41] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:40:41] "OPTIONS /api/auth/change-password HTTP/1.1" 200 -
+[2026-08-15 01:46:18] [INFO] [a9f3f346] app: Request started
+[2026-08-15 01:46:18] [INFO] [a9f3f346] app: Request completed
+[2026-08-15 01:46:18] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:46:18] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:46:47] [INFO] [309ea3b8] app: Request started
+[2026-08-15 01:46:47] [INFO] [309ea3b8] app: Request completed
+[2026-08-15 01:46:47] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:46:47] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:46:59] [INFO] [8830265a] app: Request started
+[2026-08-15 01:46:59] [INFO] [8830265a] app: Request completed
+[2026-08-15 01:46:59] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:46:59] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:47:03] [INFO] [cbee29fb] app: Request started
+[2026-08-15 01:47:03] [INFO] [cbee29fb] app: Request completed
+[2026-08-15 01:47:03] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:47:03] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:47:04] [INFO] [0836fb93] app: Request started
+[2026-08-15 01:47:04] [INFO] [0836fb93] app: Request completed
+[2026-08-15 01:47:04] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:47:04] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:47:05] [INFO] [1b93202d] app: Request started
+[2026-08-15 01:47:05] [INFO] [1b93202d] app: Request completed
+[2026-08-15 01:47:05] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:47:05] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:47:29] [INFO] [fc44e75a] app: Request started
+[2026-08-15 01:47:29] [INFO] [fc44e75a] app: Request completed
+[2026-08-15 01:47:29] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:47:29] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:49:22] [INFO] [db089e80] app: Request started
+[2026-08-15 01:49:22] [INFO] [db089e80] app: Request completed
+[2026-08-15 01:49:22] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:49:22] "POST /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:49:26] [INFO] [afcaa63e] app: Request started
+[2026-08-15 01:49:26] [INFO] [afcaa63e] app: Request completed
+[2026-08-15 01:49:26] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:49:26] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 01:53:13] [INFO] [d187e6d1] app: Request started
+[2026-08-15 01:53:13] [INFO] [d187e6d1] app: Request completed
+[2026-08-15 01:53:13] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:53:13] "GET /settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:53:17] [INFO] [e429aa46] app: Request started
+[2026-08-15 01:53:17] [INFO] [e429aa46] app: Request completed
+[2026-08-15 01:53:17] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:53:17] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:53:24] [INFO] [ba758e99] app: Request started
+[2026-08-15 01:53:24] [INFO] [ba758e99] app: Request completed
+[2026-08-15 01:53:24] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:53:24] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:53:56] [INFO] [c03160a3] app: Request started
+[2026-08-15 01:53:56] [INFO] [c03160a3] app: Request completed
+[2026-08-15 01:53:56] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:53:56] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:53:58] [INFO] [a2dafdfd] app: Request started
+[2026-08-15 01:53:58] [INFO] [a2dafdfd] app: Request completed
+[2026-08-15 01:53:58] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:53:58] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:56:30] [INFO] [0d121738] app: Request started
+[2026-08-15 01:56:30] [INFO] [0d121738] app: Request completed
+[2026-08-15 01:56:30] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:56:30] "GET /api/api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:56:46] [INFO] [fdf1c54e] app: Request started
+[2026-08-15 01:56:46] [INFO] [fdf1c54e] app: Request completed
+[2026-08-15 01:56:46] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:56:46] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:57:05] [INFO] [e364c088] app: Request started
+[2026-08-15 01:57:05] [INFO] [e364c088] app: Request completed
+[2026-08-15 01:57:05] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:57:05] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 01:58:10] [INFO] [e5324efc] app: Request started
+[2026-08-15 01:58:10] [INFO] [e5324efc] app: Request completed
+[2026-08-15 01:58:10] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 01:58:10] "GET /api/settings/homepage HTTP/1.1" 200 -
+[2026-08-15 02:10:46] [INFO] [0865a41c] app: Request started
+[2026-08-15 02:10:46] [INFO] [0865a41c] app: Request completed
+[2026-08-15 02:10:46] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 02:10:46] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+[2026-08-15 11:00:09] [INFO] [a022082b] app: Request started
+[2026-08-15 11:00:09] [INFO] [a022082b] app: Request completed
+[2026-08-15 11:00:09] [INFO] [N/A] werkzeug: 127.0.0.1 - - [15/Aug/2026 11:00:09] "OPTIONS /api/api/auth/login HTTP/1.1" 200 -
+[2026-08-15 19:14:38] [INFO] [a046cf43] app: Request started
+[2026-08-15 19:14:38] [INFO] [a046cf43] app: Request completed
+[2026-08-15 19:14:38] [INFO] [N/A] werkzeug: 192.168.1.157 - - [15/Aug/2026 19:14:38] "GET / HTTP/1.1" 200 -
+[2026-08-15 19:14:47] [INFO] [2a8a86b3] app: Request started
+[2026-08-15 19:14:47] [ERROR] [2a8a86b3] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-15 19:14:47] [INFO] [2a8a86b3] app: Request completed
+[2026-08-15 19:14:47] [INFO] [N/A] werkzeug: 192.168.1.157 - - [15/Aug/2026 19:14:47] "[31m[1mGET / HTTP/1.1[0m" 400 -
+[2026-08-16 19:18:28] [INFO] [0021cf48] app: Request started
+[2026-08-16 19:18:28] [INFO] [0021cf48] app: Request completed
+[2026-08-16 19:18:28] [INFO] [N/A] werkzeug: 192.168.1.157 - - [16/Aug/2026 19:18:28] "GET / HTTP/1.1" 200 -
+[2026-08-16 19:18:37] [INFO] [2a003bf8] app: Request started
+[2026-08-16 19:18:37] [ERROR] [2a003bf8] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-16 19:18:37] [INFO] [2a003bf8] app: Request completed
+[2026-08-16 19:18:37] [INFO] [N/A] werkzeug: 192.168.1.157 - - [16/Aug/2026 19:18:37] "[31m[1mGET / HTTP/1.1[0m" 400 -
+[2026-08-16 19:18:38] [INFO] [e5fd34e9] app: Request started
+[2026-08-16 19:18:38] [INFO] [e5fd34e9] app: Request completed
+[2026-08-16 19:18:38] [INFO] [N/A] werkzeug: 192.168.1.157 - - [16/Aug/2026 19:18:38] "GET /loginMsg.js HTTP/1.1" 200 -
+[2026-08-16 19:18:38] [INFO] [75086f52] app: Request started
+[2026-08-16 19:18:38] [INFO] [75086f52] app: Request completed
+[2026-08-16 19:18:38] [INFO] [N/A] werkzeug: 192.168.1.157 - - [16/Aug/2026 19:18:38] "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 200 -
+[2026-08-17 11:57:37] [INFO] [c589cc26] app: Request started
+[2026-08-17 11:57:37] [INFO] [c589cc26] app: Request completed
+[2026-08-17 11:57:37] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:37] "GET / HTTP/1.1" 200 -
+[2026-08-17 11:57:43] [INFO] [f44562b5] app: Request started
+[2026-08-17 11:57:43] [ERROR] [f44562b5] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-17 11:57:43] [INFO] [f44562b5] app: Request completed
+[2026-08-17 11:57:43] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:43] "[31m[1mGET / HTTP/1.1[0m" 400 -
+[2026-08-17 11:57:45] [INFO] [66d88b55] app: Request started
+[2026-08-17 11:57:45] [INFO] [66d88b55] app: Request completed
+[2026-08-17 11:57:45] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:45] "GET /loginMsg.js HTTP/1.1" 200 -
+[2026-08-17 11:57:45] [INFO] [9ad56b87] app: Request started
+[2026-08-17 11:57:45] [INFO] [9ad56b87] app: Request completed
+[2026-08-17 11:57:45] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:45] "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 200 -
+[2026-08-17 11:57:54] [INFO] [bca6f658] app: Request started
+[2026-08-17 11:57:54] [INFO] [bca6f658] app: Request completed
+[2026-08-17 11:57:54] [INFO] [N/A] werkzeug: 172.20.10.3 - - [17/Aug/2026 11:57:54] "GET /rootDesc.xml HTTP/1.1" 200 -

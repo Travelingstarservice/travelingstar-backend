@@ -115,3 +115,183 @@ Traceback (most recent call last):
     ...<2 lines>...
     )
 RuntimeError: Attempted implicit sequence conversion but the response object is in direct passthrough mode.
+[2026-08-14 15:30:16] [ERROR] [ac221130] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-14 18:06:54] [ERROR] [d5b53f01] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:42] [ERROR] [da880a59] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:48] [ERROR] [a77a9cd6] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:53:57] [ERROR] [5f1e5f6c] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:10] [ERROR] [ce13a9f0] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:18] [ERROR] [2b43fe43] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:28] [ERROR] [7bbaa911] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 00:54:59] [ERROR] [3bc79031] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 624, in match
+    raise MethodNotAllowed(valid_methods=list(e.have_match_for)) from None
+werkzeug.exceptions.MethodNotAllowed: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2026-08-15 19:14:47] [ERROR] [2a8a86b3] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-16 19:18:37] [ERROR] [2a003bf8] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+[2026-08-17 11:57:43] [ERROR] [f44562b5] app: Unhandled exception
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\flask\ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\User\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 627, in match
+    raise WebsocketMismatch() from None
+werkzeug.routing.exceptions.WebsocketMismatch: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
